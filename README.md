@@ -9,7 +9,7 @@
 ## Быстрый старт
 
 ### 1. Клонирование( для Ubuntu)
-предварительно запустить скрипт 
+предварительно запустить скрипт setup.sh
 в терминале выполнить:
 git clone https://github.com/Nanotrell/timp-project.git
 cd timp-project
