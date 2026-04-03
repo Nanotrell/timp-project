@@ -1,0 +1,221 @@
+#include "postgresqlserver.h"
+#include "database.h"
+#include "math_engine.h"
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QRandomGenerator>
+#include <QRegularExpression>
+
+// Генерация случайного кода (6 цифр)
+QString generateCode() {
+    int code = QRandomGenerator::global()->bounded(100000, 999999);
+    return QString::number(code);
+}
+
+// Отправка email (упрощенная версия)
+void sendEmail(const QString& to, const QString& subject, const QString& body) {
+    qDebug() << "📧 Email to:" << to;
+    qDebug() << "   Subject:" << subject;
+    qDebug() << "   Body:" << body;
+    // В реальном проекте здесь нужно использовать SMTP
+}
+
+PostgreSQLServer::PostgreSQLServer(QObject *parent) : QObject(parent)
+{
+    m_server = new QTcpServer(this);
+    connect(m_server, &QTcpServer::newConnection, this, &PostgreSQLServer::onNewConnection);
+
+    if (!m_server->listen(QHostAddress::Any, 33333)) {
+        qDebug() << "Ошибка запуска:" << m_server->errorString();
+    } else {
+        qDebug() << "Сервер запущен на порту 33333";
+
+        QString dbHost = qgetenv("POSTGRES_HOST");
+        if (dbHost.isEmpty()) dbHost = "localhost";
+        QString dbName = qgetenv("POSTGRES_DB");
+        if (dbName.isEmpty()) dbName = "function_plotter";
+        QString dbUser = qgetenv("POSTGRES_USER");
+        if (dbUser.isEmpty()) dbUser = "plotter_user";
+        QString dbPass = qgetenv("POSTGRES_PASSWORD");
+        if (dbPass.isEmpty()) dbPass = "plotter123";
+
+        Database* db = Database::getInstance();
+        if (!db->connect(dbHost, dbName, dbUser, dbPass, 5432)) {
+            qDebug() << "Ошибка подключения к PostgreSQL!";
+        } else {
+            qDebug() << "PostgreSQL подключен";
+        }
+    }
+}
+
+PostgreSQLServer::~PostgreSQLServer()
+{
+    m_server->close();
+    Database::getInstance()->close();
+}
+
+void PostgreSQLServer::onNewConnection()
+{
+    QTcpSocket* client = m_server->nextPendingConnection();
+    if (!client) return;
+
+    ClientSession session;
+    session.buffer = "";
+    session.currentLogin = "";
+    m_clients[client] = session;
+
+    connect(client, &QTcpSocket::readyRead, this, &PostgreSQLServer::onReadyRead);
+    connect(client, &QTcpSocket::disconnected, this, &PostgreSQLServer::onClientDisconnected);
+
+    qDebug() << "Клиент подключен:" << client->peerAddress().toString();
+    sendResponse(client, "Connected to Function Plotter Server");
+    sendResponse(client, "Commands: auth|login|pass | reg|login|pass|email | forgot|email | reset|code|newpass | calc|a|b|c");
+}
+
+void PostgreSQLServer::onReadyRead()
+{
+    QTcpSocket* client = qobject_cast<QTcpSocket*>(sender());
+    if (!client || !m_clients.contains(client)) return;
+
+    QByteArray data = client->readAll();
+    m_clients[client].buffer += QString::fromUtf8(data);
+
+    if (m_clients[client].buffer.contains('\n')) {
+        QStringList lines = m_clients[client].buffer.split('\n');
+        for (int i = 0; i < lines.size() - 1; ++i) {
+            QString request = lines[i].trimmed();
+            if (!request.isEmpty()) processRequest(client, request);
+        }
+        m_clients[client].buffer = lines.last();
+    }
+}
+
+void PostgreSQLServer::processRequest(QTcpSocket* client, const QString& request)
+{
+    qDebug() << "Запрос:" << request;
+    QStringList parts = request.split('|');
+    if (parts.isEmpty()) { sendResponse(client, "ERROR|Empty"); return; }
+
+    QString cmd = parts[0];
+
+    // ========== РЕГИСТРАЦИЯ ==========
+    if (cmd == "reg" && parts.size() >= 4) {
+        Database* db = Database::getInstance();
+        if (db->addUser(parts[1], parts[2], parts[3])) {
+            sendResponse(client, "REG_SUCCESS|" + parts[1]);
+        } else {
+            sendResponse(client, "REG_FAILED|User exists");
+        }
+    }
+    // ========== АВТОРИЗАЦИЯ ==========
+    else if (cmd == "auth" && parts.size() >= 3) {
+        Database* db = Database::getInstance();
+        if (db->checkAuth(parts[1], parts[2])) {
+            m_clients[client].currentLogin = parts[1];
+            sendResponse(client, "AUTH_SUCCESS|" + parts[1]);
+        } else {
+            sendResponse(client, "AUTH_FAILED");
+        }
+    }
+    // ========== ЗАБЫЛИ ПАРОЛЬ - ОТПРАВКА КОДА ==========
+    else if (cmd == "forgot" && parts.size() >= 2) {
+        QString email = parts[1];
+        Database* db = Database::getInstance();
+
+        // Проверяем, существует ли email
+        UserInfo user = db->getUserInfo(email); // Нужно добавить метод getUserInfoByEmail
+        if (user.id == -1) {
+            // Не сообщаем, что email не найден (безопасность)
+            sendResponse(client, "FORGOT_SENT|If email exists, code was sent");
+            return;
+        }
+
+        // Генерируем 6-значный код
+        QString code = generateCode();
+
+        // Сохраняем код в БД как reset_token
+        db->setResetToken(email, code, 15); // 15 минут на ввод
+
+        // Отправляем email
+        QString body = QString(
+            "<h2>Восстановление пароля</h2>"
+            "<p>Ваш код для сброса пароля: <b>%1</b></p>"
+            "<p>Код действителен в течение 15 минут.</p>"
+            "<p>Если вы не запрашивали сброс пароля, проигнорируйте это письмо.</p>"
+        ).arg(code);
+
+        sendEmail(email, "Код восстановления пароля", body);
+        sendResponse(client, "FORGOT_SENT|Code sent to email");
+    }
+    // ========== СБРОС ПАРОЛЯ ПО КОДУ ==========
+    else if (cmd == "reset" && parts.size() >= 3) {
+        QString code = parts[1];
+        QString newPassword = parts[2];
+        Database* db = Database::getInstance();
+
+        // Проверяем код
+        if (!db->isValidResetToken(code)) {
+            sendResponse(client, "RESET_FAILED|Invalid or expired code");
+            return;
+        }
+
+        // Получаем email по коду
+        QString email = db->getEmailByResetToken(code);
+        if (email.isEmpty()) {
+            sendResponse(client, "RESET_FAILED|Invalid code");
+            return;
+        }
+
+        // Обновляем пароль (нужно получить login по email)
+        // Для упрощения: ищем пользователя по email
+        QSqlQuery query(db->getDatabase());
+        query.prepare("SELECT login FROM users WHERE email = :email");
+        query.bindValue(":email", email);
+        if (query.exec() && query.next()) {
+            QString login = query.value(0).toString();
+            db->updatePassword(login, newPassword);
+        }
+
+        // Очищаем токен
+        db->clearResetToken(code);
+        sendResponse(client, "RESET_SUCCESS|Password updated");
+    }
+    // ========== РАСЧЕТ ТОЧЕК ==========
+    else if (cmd == "calc" && parts.size() >= 4) {
+        FunctionParams params(parts[1].toDouble(), parts[2].toDouble(), parts[3].toDouble());
+        QVector<QPointF> points = MathEngine::generatePoints(params, 20);
+        QJsonArray pointsArray;
+        for (const QPointF& p : points) {
+            QJsonObject obj;
+            obj["x"] = p.x();
+            obj["y"] = p.y();
+            pointsArray.append(obj);
+        }
+        QJsonObject response;
+        response["type"] = "CALC_RESPONSE";
+        response["points"] = pointsArray;
+        client->write(QJsonDocument(response).toJson());
+        client->write("\n");
+    }
+    else {
+        sendResponse(client, "ERROR|Unknown: " + cmd);
+    }
+}
+
+void PostgreSQLServer::sendResponse(QTcpSocket* client, const QString& response)
+{
+    client->write(response.toUtf8());
+    client->write("\n");
+}
+
+void PostgreSQLServer::onClientDisconnected()
+{
+    QTcpSocket* client = qobject_cast<QTcpSocket*>(sender());
+    if (client) {
+        qDebug() << "Клиент отключен";
+        m_clients.remove(client);
+        client->deleteLater();
+    }
+}

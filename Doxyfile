@@ -1,0 +1,16 @@
+PROJECT_NAME           = "Function Plotter"
+PROJECT_NUMBER         = 1.0
+OUTPUT_DIRECTORY       = ./docs
+INPUT                  = ./server ./client
+RECURSIVE              = YES
+FILE_PATTERNS          = *.cpp *.h
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+HTML_COLORSTYLE_HUE    = 200
+HTML_COLORSTYLE_SAT    = 100
+HTML_COLORSTYLE_GAMMA  = 80

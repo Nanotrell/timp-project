@@ -1,0 +1,14 @@
+*.pro.user
+*.o
+*.so
+*.exe
+moc_*.cpp
+ui_*.h
+build/
+debug/
+release/
+__pycache__/
+.vscode/
+.idea/
+docs/html/
+docs/latex/
