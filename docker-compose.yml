@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: function_plotter_postgres
+    environment:
+      POSTGRES_USER: plotter_user
+      POSTGRES_PASSWORD: plotter123
+      POSTGRES_DB: function_plotter
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plotter_user -d function_plotter"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - function_plotter_network
+
+  server:
+    build: ./server
+    container_name: function_plotter_server
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: plotter_user
+      POSTGRES_PASSWORD: plotter123
+      POSTGRES_DB: function_plotter
+    ports:
+      - "33333:33333"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - function_plotter_network
+
+volumes:
+  postgres_data:
+
+networks:
+  function_plotter_network:
+    driver: bridge

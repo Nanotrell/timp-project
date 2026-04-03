@@ -1,0 +1,42 @@
+    // ========== РАСЧЕТ ТОЧЕК (200 для графика + 20 для таблицы) ==========
+    else if (cmd == "calc" && parts.size() >= 4) {
+        double a = parts[1].toDouble();
+        double b = parts[2].toDouble();
+        double c = parts[3].toDouble();
+        
+        FunctionParams params(a, b, c);
+        
+        // 200 точек для плавного графика
+        QVector<QPointF> graphPoints = MathEngine::generatePoints(params, 200);
+        
+        // 20 точек для таблицы
+        QVector<QPointF> tablePoints = MathEngine::generateDisplayPoints(params);
+        
+        QJsonArray graphArray;
+        for (const QPointF& p : graphPoints) {
+            QJsonObject obj;
+            obj["x"] = p.x();
+            obj["y"] = p.y();
+            graphArray.append(obj);
+        }
+        
+        QJsonArray tableArray;
+        for (const QPointF& p : tablePoints) {
+            QJsonObject obj;
+            obj["x"] = p.x();
+            obj["y"] = p.y();
+            tableArray.append(obj);
+        }
+        
+        QJsonObject response;
+        response["type"] = "CALC_RESPONSE";
+        response["graphPoints"] = graphArray;
+        response["tablePoints"] = tableArray;
+        response["a"] = a;
+        response["b"] = b;
+        response["c"] = c;
+        
+        client->write(QJsonDocument(response).toJson());
+        client->write("\n");
+        qDebug() << "📊 Расчет: 200 точек для графика, 20 для таблицы";
+    }
