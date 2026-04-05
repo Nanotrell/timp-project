@@ -1,13 +1,6 @@
 version: '3.8'
 
 services:
-  services:
-    client:
-      build: ./client
-      depends_on:
-        - server
-      networks:
-        - timp-project_function_plotter_network
   postgres:
     image: postgres:15-alpine
     container_name: function_plotter_postgres
