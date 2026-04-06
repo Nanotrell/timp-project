@@ -26,3 +26,16 @@
 - Подключиться к базе данных через Docker (выполнить команду в терминале):
 - docker exec -it function_plotter_postgres psql -U plotter_user -d function_plotter
 - Приложение клиента запускается при скачивании архива release.rar, распакуйте архив и запустите файл client.exe, разрешите его запуск
+- После завершения работы с проектом, остановите запущенные контейнеры: docker-compose down
+  
+## Загрузить обновления из репозитория
+- cd timp-project
+- git pull origin main
+
+## Сделать коммит в ветку master
+- git add .  # добавить все изменённые файлы
+## или
+- git add имя_файла.cpp   # добавить конкретный файл
+- git commit -m "Краткое описание того, что сделано"
+## Отправить изменения на GitHub
+- git push origin main
