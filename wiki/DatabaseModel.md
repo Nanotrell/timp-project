@@ -71,33 +71,33 @@
 ## 3. SQL-запросы к базе данных
 
 Регистрация:
-==`INSERT INTO users (login, password, email) VALUES (:login, :password, :email);`==
+`INSERT INTO users (login, password, email) VALUES (:login, :password, :email);`
 
 Проверка существования:
-==`SELECT COUNT(*) FROM users WHERE login = :login;
-SELECT COUNT(*) FROM users WHERE email = :email;`==
+`SELECT COUNT(*) FROM users WHERE login = :login;
+SELECT COUNT(*) FROM users WHERE email = :email;`
 
 Авторизация:
-==`SELECT password FROM users WHERE login = :login;`==
+`SELECT password FROM users WHERE login = :login;`
 
 Получение информации:
-==`SELECT id, login, password, email, reset_token, reset_token_expires, created_at FROM users WHERE login = :login;
-SELECT id, login, password, email, reset_token, reset_token_expires, created_at FROM users WHERE email = :email;`==
+`SELECT id, login, password, email, reset_token, reset_token_expires, created_at FROM users WHERE login = :login;
+SELECT id, login, password, email, reset_token, reset_token_expires, created_at FROM users WHERE email = :email;`
 
 Обновление пароля:
-==`UPDATE users SET password = :password WHERE login = :login;`==
+`UPDATE users SET password = :password WHERE login = :login;`
 
 Установка токена восстановления:
-==`UPDATE users SET reset_token = :token, reset_token_expires = :expires WHERE email = :email;`==
+`UPDATE users SET reset_token = :token, reset_token_expires = :expires WHERE email = :email;`
 
 Получение email по токену:
-==`SELECT email FROM users WHERE reset_token = :token AND reset_token_expires > NOW();`==
+`SELECT email FROM users WHERE reset_token = :token AND reset_token_expires > NOW();`
 
 Проверка валидности токена:
-==`SELECT COUNT(*) FROM users WHERE reset_token = :token AND reset_token_expires > NOW();`==
+`SELECT COUNT(*) FROM users WHERE reset_token = :token AND reset_token_expires > NOW();`
 
 Очистка токена:
-==`UPDATE users SET reset_token = NULL, reset_token_expires = NULL WHERE reset_token = :token;`==
+`UPDATE users SET reset_token = NULL, reset_token_expires = NULL WHERE reset_token = :token;`
 
 ## 4. Хэширование паролей
 
@@ -127,13 +127,13 @@ SELECT id, login, password, email, reset_token, reset_token_expires, created_at 
 
 ## 6. Запуск и подключение
 
-==`git clone https://github.com/Nanotrell/timp-project`==
-==`cd timp-project`==
-==`docker-compose up -d`==
+- `git clone https://github.com/Nanotrell/timp-project`
+- `cd timp-project`
+- `docker-compose up -d`
 ...
 (настройка  Docker Desktop)
 ...
-==`docker exec -it function_plotter_postgres psql -U plotter_user -d function_plotter`== (подключение базы данных в контейнере)
+- `docker exec -it function_plotter_postgres psql -U plotter_user -d function_plotter` (подключение базы данных в контейнере)
 
 
 ## 7. Диаграмма
