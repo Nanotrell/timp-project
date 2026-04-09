@@ -130,13 +130,13 @@ SELECT id, login, password, email, reset_token, reset_token_expires, created_at 
 - `git clone https://github.com/Nanotrell/timp-project`
 - `cd timp-project`
 - `docker-compose up -d`
-...
-(настройка  Docker Desktop)
-...
+- ...
+- (настройка  Docker Desktop)
+- ...
 - `docker exec -it function_plotter_postgres psql -U plotter_user -d function_plotter` (подключение базы данных в контейнере)
 
 
-## 7. Диаграмма
+## 7. Диаграмма взаимодействия элементов архитектуры
 
 Диаграмма представлена в отдельном файле db_diagram.png
 
