@@ -1,0 +1,246 @@
+\hypertarget{classDatabase}{}\doxysection{Database Class Reference}
+\label{classDatabase}\index{Database@{Database}}
+
+
+{\ttfamily \#include $<$database.\+h$>$}
+
+
+
+Collaboration diagram for Database\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{classDatabase__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDatabase_a84d399a2ad58d69daab9b05330e1316d}{$\sim$\+Database}} ()
+\item 
+bool \mbox{\hyperlink{classDatabase_a78ba35ed79175eec8e4fa9a735de31c5}{connect}} (const QString \&host, const QString \&db\+Name, const QString \&user, const QString \&password, int port=5432)
+\item 
+bool \mbox{\hyperlink{classDatabase_a3fddb01537b25a61184f7092a43b1394}{is\+Open}} () const
+\item 
+void \mbox{\hyperlink{classDatabase_ab89cb07242f0ab1d4058974bf3e7cf19}{close}} ()
+\item 
+bool \mbox{\hyperlink{classDatabase_a6c13aef63d441ebcd53228c7b18b31eb}{add\+User}} (const QString \&login, const QString \&password\+Hash, const QString \&email)
+\item 
+bool \mbox{\hyperlink{classDatabase_a286ca4eb473f35a8a3d01cd65811257c}{user\+Exists}} (const QString \&login)
+\item 
+bool \mbox{\hyperlink{classDatabase_a9f29a683c7e2b850848cbe90a650f7f4}{email\+Exists}} (const QString \&email)
+\item 
+bool \mbox{\hyperlink{classDatabase_acda40e696f691bdf137903b9568e7bb2}{check\+Auth}} (const QString \&login, const QString \&password\+Hash)
+\item 
+\mbox{\hyperlink{structUserInfo}{User\+Info}} \mbox{\hyperlink{classDatabase_ac5fd9e19fea02d54fbd768545d897dd8}{get\+User\+Info}} (const QString \&login)
+\item 
+\mbox{\hyperlink{structUserInfo}{User\+Info}} \mbox{\hyperlink{classDatabase_a07779d34fa256d1588de7d8e3d2fe5ac}{get\+User\+Info\+By\+Email}} (const QString \&email)
+\item 
+bool \mbox{\hyperlink{classDatabase_a1b8dbe52b9202b7efbd1f8d33fb160ef}{update\+Password}} (const QString \&login, const QString \&new\+Password\+Hash)
+\item 
+bool \mbox{\hyperlink{classDatabase_a6507fbf21b2d79440883762bad9f3d74}{set\+Reset\+Token}} (const QString \&email, const QString \&token, int expires\+Minutes=15)
+\item 
+QString \mbox{\hyperlink{classDatabase_a870ce206b0f8adf64e1d52c2546a17f5}{get\+Email\+By\+Reset\+Token}} (const QString \&token)
+\item 
+bool \mbox{\hyperlink{classDatabase_af90c3cd501bbe7f7a990b783bf58a7ac}{is\+Valid\+Reset\+Token}} (const QString \&token)
+\item 
+bool \mbox{\hyperlink{classDatabase_ab64a27358441bc9f5001f9b3e8d06e9b}{clear\+Reset\+Token}} (const QString \&token)
+\item 
+QSql\+Query \mbox{\hyperlink{classDatabase_abaf9285731d577596dbdef090e0f622e}{execute\+Query}} (const QString \&query\+Str)
+\item 
+void \mbox{\hyperlink{classDatabase_a3b265a7feda3c1ab39397b0e531c60a2}{insert\+Test\+Data}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classDatabase}{Database}} $\ast$ \mbox{\hyperlink{classDatabase_a5a3b028f980a577ea0b809eb92312761}{get\+Instance}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDatabase_a4703c80e6969d33565ea340f768fdadf}{Database}} ()
+\item 
+\mbox{\hyperlink{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}{Database}} (const \mbox{\hyperlink{classDatabase}{Database}} \&)=delete
+\item 
+\mbox{\hyperlink{classDatabase}{Database}} \& \mbox{\hyperlink{classDatabase_a91a7742eb10d89e79b534ce3d093e40f}{operator=}} (const \mbox{\hyperlink{classDatabase}{Database}} \&)=delete
+\item 
+void \mbox{\hyperlink{classDatabase_a4cc313e7b3e6ca2653a1a1527413f19c}{create\+Tables}} ()
+\item 
+void \mbox{\hyperlink{classDatabase_a0f532018bc56140e6c7c22fdf73e36a9}{update\+Tables}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QSql\+Database \mbox{\hyperlink{classDatabase_aea64d7d99483faec8f049cdd817bb693}{db}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classDatabase}{Database}} $\ast$ \mbox{\hyperlink{classDatabase_a5926460fe1c15c95d470fcde637f8d22}{instance}} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDatabase_a4703c80e6969d33565ea340f768fdadf}\label{classDatabase_a4703c80e6969d33565ea340f768fdadf}} 
+\index{Database@{Database}!Database@{Database}}
+\index{Database@{Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{Database()}{Database()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Database\+::\+Database (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}\label{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}} 
+\index{Database@{Database}!Database@{Database}}
+\index{Database@{Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{Database()}{Database()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Database\+::\+Database (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDatabase}{Database}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classDatabase_a84d399a2ad58d69daab9b05330e1316d}\label{classDatabase_a84d399a2ad58d69daab9b05330e1316d}} 
+\index{Database@{Database}!````~Database@{$\sim$Database}}
+\index{````~Database@{$\sim$Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{$\sim$Database()}{~Database()}}
+{\footnotesize\ttfamily Database\+::$\sim$\+Database (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDatabase_a6c13aef63d441ebcd53228c7b18b31eb}\label{classDatabase_a6c13aef63d441ebcd53228c7b18b31eb}} 
+\index{Database@{Database}!addUser@{addUser}}
+\index{addUser@{addUser}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{addUser()}{addUser()}}
+{\footnotesize\ttfamily bool Database\+::add\+User (\begin{DoxyParamCaption}\item[{const QString \&}]{login,  }\item[{const QString \&}]{password\+Hash,  }\item[{const QString \&}]{email }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_acda40e696f691bdf137903b9568e7bb2}\label{classDatabase_acda40e696f691bdf137903b9568e7bb2}} 
+\index{Database@{Database}!checkAuth@{checkAuth}}
+\index{checkAuth@{checkAuth}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{checkAuth()}{checkAuth()}}
+{\footnotesize\ttfamily bool Database\+::check\+Auth (\begin{DoxyParamCaption}\item[{const QString \&}]{login,  }\item[{const QString \&}]{password\+Hash }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_ab64a27358441bc9f5001f9b3e8d06e9b}\label{classDatabase_ab64a27358441bc9f5001f9b3e8d06e9b}} 
+\index{Database@{Database}!clearResetToken@{clearResetToken}}
+\index{clearResetToken@{clearResetToken}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{clearResetToken()}{clearResetToken()}}
+{\footnotesize\ttfamily bool Database\+::clear\+Reset\+Token (\begin{DoxyParamCaption}\item[{const QString \&}]{token }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_ab89cb07242f0ab1d4058974bf3e7cf19}\label{classDatabase_ab89cb07242f0ab1d4058974bf3e7cf19}} 
+\index{Database@{Database}!close@{close}}
+\index{close@{close}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void Database\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a78ba35ed79175eec8e4fa9a735de31c5}\label{classDatabase_a78ba35ed79175eec8e4fa9a735de31c5}} 
+\index{Database@{Database}!connect@{connect}}
+\index{connect@{connect}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily bool Database\+::connect (\begin{DoxyParamCaption}\item[{const QString \&}]{host,  }\item[{const QString \&}]{db\+Name,  }\item[{const QString \&}]{user,  }\item[{const QString \&}]{password,  }\item[{int}]{port = {\ttfamily 5432} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a4cc313e7b3e6ca2653a1a1527413f19c}\label{classDatabase_a4cc313e7b3e6ca2653a1a1527413f19c}} 
+\index{Database@{Database}!createTables@{createTables}}
+\index{createTables@{createTables}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{createTables()}{createTables()}}
+{\footnotesize\ttfamily void Database\+::create\+Tables (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classDatabase_a9f29a683c7e2b850848cbe90a650f7f4}\label{classDatabase_a9f29a683c7e2b850848cbe90a650f7f4}} 
+\index{Database@{Database}!emailExists@{emailExists}}
+\index{emailExists@{emailExists}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{emailExists()}{emailExists()}}
+{\footnotesize\ttfamily bool Database\+::email\+Exists (\begin{DoxyParamCaption}\item[{const QString \&}]{email }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_abaf9285731d577596dbdef090e0f622e}\label{classDatabase_abaf9285731d577596dbdef090e0f622e}} 
+\index{Database@{Database}!executeQuery@{executeQuery}}
+\index{executeQuery@{executeQuery}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{executeQuery()}{executeQuery()}}
+{\footnotesize\ttfamily QSql\+Query Database\+::execute\+Query (\begin{DoxyParamCaption}\item[{const QString \&}]{query\+Str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a870ce206b0f8adf64e1d52c2546a17f5}\label{classDatabase_a870ce206b0f8adf64e1d52c2546a17f5}} 
+\index{Database@{Database}!getEmailByResetToken@{getEmailByResetToken}}
+\index{getEmailByResetToken@{getEmailByResetToken}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getEmailByResetToken()}{getEmailByResetToken()}}
+{\footnotesize\ttfamily QString Database\+::get\+Email\+By\+Reset\+Token (\begin{DoxyParamCaption}\item[{const QString \&}]{token }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a5a3b028f980a577ea0b809eb92312761}\label{classDatabase_a5a3b028f980a577ea0b809eb92312761}} 
+\index{Database@{Database}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classDatabase}{Database}} $\ast$ Database\+::get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{classDatabase_ac5fd9e19fea02d54fbd768545d897dd8}\label{classDatabase_ac5fd9e19fea02d54fbd768545d897dd8}} 
+\index{Database@{Database}!getUserInfo@{getUserInfo}}
+\index{getUserInfo@{getUserInfo}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getUserInfo()}{getUserInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structUserInfo}{User\+Info}} Database\+::get\+User\+Info (\begin{DoxyParamCaption}\item[{const QString \&}]{login }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a07779d34fa256d1588de7d8e3d2fe5ac}\label{classDatabase_a07779d34fa256d1588de7d8e3d2fe5ac}} 
+\index{Database@{Database}!getUserInfoByEmail@{getUserInfoByEmail}}
+\index{getUserInfoByEmail@{getUserInfoByEmail}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getUserInfoByEmail()}{getUserInfoByEmail()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structUserInfo}{User\+Info}} Database\+::get\+User\+Info\+By\+Email (\begin{DoxyParamCaption}\item[{const QString \&}]{email }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a3b265a7feda3c1ab39397b0e531c60a2}\label{classDatabase_a3b265a7feda3c1ab39397b0e531c60a2}} 
+\index{Database@{Database}!insertTestData@{insertTestData}}
+\index{insertTestData@{insertTestData}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{insertTestData()}{insertTestData()}}
+{\footnotesize\ttfamily void Database\+::insert\+Test\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a3fddb01537b25a61184f7092a43b1394}\label{classDatabase_a3fddb01537b25a61184f7092a43b1394}} 
+\index{Database@{Database}!isOpen@{isOpen}}
+\index{isOpen@{isOpen}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{isOpen()}{isOpen()}}
+{\footnotesize\ttfamily bool Database\+::is\+Open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classDatabase_af90c3cd501bbe7f7a990b783bf58a7ac}\label{classDatabase_af90c3cd501bbe7f7a990b783bf58a7ac}} 
+\index{Database@{Database}!isValidResetToken@{isValidResetToken}}
+\index{isValidResetToken@{isValidResetToken}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{isValidResetToken()}{isValidResetToken()}}
+{\footnotesize\ttfamily bool Database\+::is\+Valid\+Reset\+Token (\begin{DoxyParamCaption}\item[{const QString \&}]{token }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a91a7742eb10d89e79b534ce3d093e40f}\label{classDatabase_a91a7742eb10d89e79b534ce3d093e40f}} 
+\index{Database@{Database}!operator=@{operator=}}
+\index{operator=@{operator=}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classDatabase}{Database}}\& Database\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDatabase}{Database}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classDatabase_a6507fbf21b2d79440883762bad9f3d74}\label{classDatabase_a6507fbf21b2d79440883762bad9f3d74}} 
+\index{Database@{Database}!setResetToken@{setResetToken}}
+\index{setResetToken@{setResetToken}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{setResetToken()}{setResetToken()}}
+{\footnotesize\ttfamily bool Database\+::set\+Reset\+Token (\begin{DoxyParamCaption}\item[{const QString \&}]{email,  }\item[{const QString \&}]{token,  }\item[{int}]{expires\+Minutes = {\ttfamily 15} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a1b8dbe52b9202b7efbd1f8d33fb160ef}\label{classDatabase_a1b8dbe52b9202b7efbd1f8d33fb160ef}} 
+\index{Database@{Database}!updatePassword@{updatePassword}}
+\index{updatePassword@{updatePassword}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{updatePassword()}{updatePassword()}}
+{\footnotesize\ttfamily bool Database\+::update\+Password (\begin{DoxyParamCaption}\item[{const QString \&}]{login,  }\item[{const QString \&}]{new\+Password\+Hash }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a0f532018bc56140e6c7c22fdf73e36a9}\label{classDatabase_a0f532018bc56140e6c7c22fdf73e36a9}} 
+\index{Database@{Database}!updateTables@{updateTables}}
+\index{updateTables@{updateTables}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{updateTables()}{updateTables()}}
+{\footnotesize\ttfamily void Database\+::update\+Tables (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classDatabase_a286ca4eb473f35a8a3d01cd65811257c}\label{classDatabase_a286ca4eb473f35a8a3d01cd65811257c}} 
+\index{Database@{Database}!userExists@{userExists}}
+\index{userExists@{userExists}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{userExists()}{userExists()}}
+{\footnotesize\ttfamily bool Database\+::user\+Exists (\begin{DoxyParamCaption}\item[{const QString \&}]{login }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classDatabase_aea64d7d99483faec8f049cdd817bb693}\label{classDatabase_aea64d7d99483faec8f049cdd817bb693}} 
+\index{Database@{Database}!db@{db}}
+\index{db@{db}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{db}{db}}
+{\footnotesize\ttfamily QSql\+Database Database\+::db\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classDatabase_a5926460fe1c15c95d470fcde637f8d22}\label{classDatabase_a5926460fe1c15c95d470fcde637f8d22}} 
+\index{Database@{Database}!instance@{instance}}
+\index{instance@{instance}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{instance}{instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classDatabase}{Database}} $\ast$ Database\+::instance = nullptr\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+server/\mbox{\hyperlink{database_8h}{database.\+h}}\item 
+server/\mbox{\hyperlink{database_8cpp}{database.\+cpp}}\end{DoxyCompactItemize}

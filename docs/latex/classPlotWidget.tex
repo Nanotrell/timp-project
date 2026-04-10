@@ -1,0 +1,189 @@
+\hypertarget{classPlotWidget}{}\doxysection{Plot\+Widget Class Reference}
+\label{classPlotWidget}\index{PlotWidget@{PlotWidget}}
+
+
+{\ttfamily \#include $<$plotwidget.\+h$>$}
+
+
+
+Inheritance diagram for Plot\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{classPlotWidget__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Plot\+Widget\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=150pt]{classPlotWidget__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPlotWidget_adb0478b91693d35aee6521f325511ac6}{Plot\+Widget}} (QWidget $\ast$parent=nullptr)
+\item 
+void \mbox{\hyperlink{classPlotWidget_a475f7c2d432126d50be3fb4d6c382ab1}{set\+Points}} (const QVector$<$ QPointF $>$ \&points)
+\item 
+void \mbox{\hyperlink{classPlotWidget_a49ab2464eff2a40e2f9914840e9eeaaf}{clear}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classPlotWidget_af5ea7c023c177814e641d03a9dbba7c3}{paint\+Event}} (QPaint\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classPlotWidget_a5ba6c94a312f8144c9b22cdd4b045f91}{wheel\+Event}} (QWheel\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classPlotWidget_a8dae5dc7e06306f1174090cbc7601601}{mouse\+Press\+Event}} (QMouse\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classPlotWidget_a056d5be33d2bb0143414f295d5d6ad9a}{mouse\+Move\+Event}} (QMouse\+Event $\ast$event) override
+\item 
+void \mbox{\hyperlink{classPlotWidget_a4951aee81d5478049d6b88b6c2bc696e}{mouse\+Release\+Event}} (QMouse\+Event $\ast$event) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+QPointF \mbox{\hyperlink{classPlotWidget_ac33cc15652b72acdc3708d29662a8fd9}{world\+To\+Widget}} (const QPointF \&point) const
+\item 
+QPointF \mbox{\hyperlink{classPlotWidget_ab81ba4d427baf9f0b6afb8878492e5f2}{widget\+To\+World}} (const QPointF \&point) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QVector$<$ QPointF $>$ \mbox{\hyperlink{classPlotWidget_ae42561d8127c8724ce6047c2a3dd24cb}{m\+\_\+points}}
+\item 
+double \mbox{\hyperlink{classPlotWidget_aae89457a4de4f6d5d7f7b4e89cd5b91c}{m\+\_\+x\+Min}} = -\/20.\+0
+\item 
+double \mbox{\hyperlink{classPlotWidget_a5c09922115d0127aff0b5f8529cf9493}{m\+\_\+x\+Max}} = 20.\+0
+\item 
+double \mbox{\hyperlink{classPlotWidget_aae5fc936c48dffbfb5a7aca60e9b24f5}{m\+\_\+y\+Min}} = -\/20.\+0
+\item 
+double \mbox{\hyperlink{classPlotWidget_a05ed08494dc770b2a2d5da61875ed294}{m\+\_\+y\+Max}} = 20.\+0
+\item 
+bool \mbox{\hyperlink{classPlotWidget_aa150648e0a362d959714fc2ee2371589}{m\+\_\+panning}} = false
+\item 
+QPoint \mbox{\hyperlink{classPlotWidget_a0e511bc557a1081d295140e73f5ad5b3}{m\+\_\+last\+Mouse\+Pos}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPlotWidget_adb0478b91693d35aee6521f325511ac6}\label{classPlotWidget_adb0478b91693d35aee6521f325511ac6}} 
+\index{PlotWidget@{PlotWidget}!PlotWidget@{PlotWidget}}
+\index{PlotWidget@{PlotWidget}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{PlotWidget()}{PlotWidget()}}
+{\footnotesize\ttfamily Plot\+Widget\+::\+Plot\+Widget (\begin{DoxyParamCaption}\item[{QWidget $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPlotWidget_a49ab2464eff2a40e2f9914840e9eeaaf}\label{classPlotWidget_a49ab2464eff2a40e2f9914840e9eeaaf}} 
+\index{PlotWidget@{PlotWidget}!clear@{clear}}
+\index{clear@{clear}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classPlotWidget_a056d5be33d2bb0143414f295d5d6ad9a}\label{classPlotWidget_a056d5be33d2bb0143414f295d5d6ad9a}} 
+\index{PlotWidget@{PlotWidget}!mouseMoveEvent@{mouseMoveEvent}}
+\index{mouseMoveEvent@{mouseMoveEvent}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{mouseMoveEvent()}{mouseMoveEvent()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::mouse\+Move\+Event (\begin{DoxyParamCaption}\item[{QMouse\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPlotWidget_a8dae5dc7e06306f1174090cbc7601601}\label{classPlotWidget_a8dae5dc7e06306f1174090cbc7601601}} 
+\index{PlotWidget@{PlotWidget}!mousePressEvent@{mousePressEvent}}
+\index{mousePressEvent@{mousePressEvent}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{mousePressEvent()}{mousePressEvent()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::mouse\+Press\+Event (\begin{DoxyParamCaption}\item[{QMouse\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPlotWidget_a4951aee81d5478049d6b88b6c2bc696e}\label{classPlotWidget_a4951aee81d5478049d6b88b6c2bc696e}} 
+\index{PlotWidget@{PlotWidget}!mouseReleaseEvent@{mouseReleaseEvent}}
+\index{mouseReleaseEvent@{mouseReleaseEvent}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{mouseReleaseEvent()}{mouseReleaseEvent()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::mouse\+Release\+Event (\begin{DoxyParamCaption}\item[{QMouse\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPlotWidget_af5ea7c023c177814e641d03a9dbba7c3}\label{classPlotWidget_af5ea7c023c177814e641d03a9dbba7c3}} 
+\index{PlotWidget@{PlotWidget}!paintEvent@{paintEvent}}
+\index{paintEvent@{paintEvent}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{paintEvent()}{paintEvent()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::paint\+Event (\begin{DoxyParamCaption}\item[{QPaint\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPlotWidget_a475f7c2d432126d50be3fb4d6c382ab1}\label{classPlotWidget_a475f7c2d432126d50be3fb4d6c382ab1}} 
+\index{PlotWidget@{PlotWidget}!setPoints@{setPoints}}
+\index{setPoints@{setPoints}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{setPoints()}{setPoints()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::set\+Points (\begin{DoxyParamCaption}\item[{const QVector$<$ QPointF $>$ \&}]{points }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classPlotWidget_a5ba6c94a312f8144c9b22cdd4b045f91}\label{classPlotWidget_a5ba6c94a312f8144c9b22cdd4b045f91}} 
+\index{PlotWidget@{PlotWidget}!wheelEvent@{wheelEvent}}
+\index{wheelEvent@{wheelEvent}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{wheelEvent()}{wheelEvent()}}
+{\footnotesize\ttfamily void Plot\+Widget\+::wheel\+Event (\begin{DoxyParamCaption}\item[{QWheel\+Event $\ast$}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classPlotWidget_ab81ba4d427baf9f0b6afb8878492e5f2}\label{classPlotWidget_ab81ba4d427baf9f0b6afb8878492e5f2}} 
+\index{PlotWidget@{PlotWidget}!widgetToWorld@{widgetToWorld}}
+\index{widgetToWorld@{widgetToWorld}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{widgetToWorld()}{widgetToWorld()}}
+{\footnotesize\ttfamily QPointF Plot\+Widget\+::widget\+To\+World (\begin{DoxyParamCaption}\item[{const QPointF \&}]{point }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_ac33cc15652b72acdc3708d29662a8fd9}\label{classPlotWidget_ac33cc15652b72acdc3708d29662a8fd9}} 
+\index{PlotWidget@{PlotWidget}!worldToWidget@{worldToWidget}}
+\index{worldToWidget@{worldToWidget}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{worldToWidget()}{worldToWidget()}}
+{\footnotesize\ttfamily QPointF Plot\+Widget\+::world\+To\+Widget (\begin{DoxyParamCaption}\item[{const QPointF \&}]{point }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPlotWidget_a0e511bc557a1081d295140e73f5ad5b3}\label{classPlotWidget_a0e511bc557a1081d295140e73f5ad5b3}} 
+\index{PlotWidget@{PlotWidget}!m\_lastMousePos@{m\_lastMousePos}}
+\index{m\_lastMousePos@{m\_lastMousePos}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_lastMousePos}{m\_lastMousePos}}
+{\footnotesize\ttfamily QPoint Plot\+Widget\+::m\+\_\+last\+Mouse\+Pos\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_aa150648e0a362d959714fc2ee2371589}\label{classPlotWidget_aa150648e0a362d959714fc2ee2371589}} 
+\index{PlotWidget@{PlotWidget}!m\_panning@{m\_panning}}
+\index{m\_panning@{m\_panning}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_panning}{m\_panning}}
+{\footnotesize\ttfamily bool Plot\+Widget\+::m\+\_\+panning = false\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_ae42561d8127c8724ce6047c2a3dd24cb}\label{classPlotWidget_ae42561d8127c8724ce6047c2a3dd24cb}} 
+\index{PlotWidget@{PlotWidget}!m\_points@{m\_points}}
+\index{m\_points@{m\_points}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_points}{m\_points}}
+{\footnotesize\ttfamily QVector$<$QPointF$>$ Plot\+Widget\+::m\+\_\+points\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_a5c09922115d0127aff0b5f8529cf9493}\label{classPlotWidget_a5c09922115d0127aff0b5f8529cf9493}} 
+\index{PlotWidget@{PlotWidget}!m\_xMax@{m\_xMax}}
+\index{m\_xMax@{m\_xMax}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_xMax}{m\_xMax}}
+{\footnotesize\ttfamily double Plot\+Widget\+::m\+\_\+x\+Max = 20.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_aae89457a4de4f6d5d7f7b4e89cd5b91c}\label{classPlotWidget_aae89457a4de4f6d5d7f7b4e89cd5b91c}} 
+\index{PlotWidget@{PlotWidget}!m\_xMin@{m\_xMin}}
+\index{m\_xMin@{m\_xMin}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_xMin}{m\_xMin}}
+{\footnotesize\ttfamily double Plot\+Widget\+::m\+\_\+x\+Min = -\/20.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_a05ed08494dc770b2a2d5da61875ed294}\label{classPlotWidget_a05ed08494dc770b2a2d5da61875ed294}} 
+\index{PlotWidget@{PlotWidget}!m\_yMax@{m\_yMax}}
+\index{m\_yMax@{m\_yMax}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_yMax}{m\_yMax}}
+{\footnotesize\ttfamily double Plot\+Widget\+::m\+\_\+y\+Max = 20.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classPlotWidget_aae5fc936c48dffbfb5a7aca60e9b24f5}\label{classPlotWidget_aae5fc936c48dffbfb5a7aca60e9b24f5}} 
+\index{PlotWidget@{PlotWidget}!m\_yMin@{m\_yMin}}
+\index{m\_yMin@{m\_yMin}!PlotWidget@{PlotWidget}}
+\doxysubsubsection{\texorpdfstring{m\_yMin}{m\_yMin}}
+{\footnotesize\ttfamily double Plot\+Widget\+::m\+\_\+y\+Min = -\/20.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+client/\mbox{\hyperlink{plotwidget_8h}{plotwidget.\+h}}\item 
+client/\mbox{\hyperlink{plotwidget_8cpp}{plotwidget.\+cpp}}\end{DoxyCompactItemize}

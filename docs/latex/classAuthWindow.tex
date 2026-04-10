@@ -1,0 +1,225 @@
+\hypertarget{classAuthWindow}{}\doxysection{Auth\+Window Class Reference}
+\label{classAuthWindow}\index{AuthWindow@{AuthWindow}}
+
+
+{\ttfamily \#include $<$authwindow.\+h$>$}
+
+
+
+Inheritance diagram for Auth\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=158pt]{classAuthWindow__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Auth\+Window\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=158pt]{classAuthWindow__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classAuthWindow_affb1755da8ffd5e7712aea017482e4b0}{auth\+Success}} (const QString \&login)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAuthWindow_af2cdee37721f32406db8fef61cdb3dc1}{Auth\+Window}} (QWidget $\ast$parent=nullptr)
+\item 
+\mbox{\hyperlink{classAuthWindow_a4f110ced4881e0f20495175f73e5e572}{$\sim$\+Auth\+Window}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classAuthWindow_a3f98781432302ea8839b5d3900f8d291}{on\+Login}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_af67111b954528acf41c7b83cbcc4ad04}{on\+Register}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_ac0295f11e8ce5a09f8c8fab18ae319cb}{on\+Connected}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_a9b2f115ccaed3c802887bbf8f71fb60d}{on\+Ready\+Read}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_a8ab12a7e41f91600f51b8ddcc6f5afdb}{on\+Error}} (QAbstract\+Socket\+::\+Socket\+Error)
+\item 
+void \mbox{\hyperlink{classAuthWindow_a32b6b3441d8ee1209b9ffbe95d3e1c8d}{switch\+To\+Login}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_ae050773d0745d8ddc7f903985fe6e611}{switch\+To\+Register}} ()
+\item 
+void \mbox{\hyperlink{classAuthWindow_a227317fac48b8ce605e6fc4b737b93b8}{on\+Forgot\+Password}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classAuthWindow_ae6edecabe27ef732432ecaca24f31e2e}{send\+Command}} (const QString \&cmd)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+QTcp\+Socket $\ast$ \mbox{\hyperlink{classAuthWindow_a7c1bbee7bf1c205e92ce7da6fbe3016d}{m\+\_\+socket}}
+\item 
+bool \mbox{\hyperlink{classAuthWindow_a68cc491e5e6e7490d919b642770afa15}{m\+\_\+is\+Login\+Mode}}
+\item 
+QLine\+Edit $\ast$ \mbox{\hyperlink{classAuthWindow_a62d4dddd409d4ace9d3e146fc2e44c94}{m\+\_\+login\+Edit}}
+\item 
+QLine\+Edit $\ast$ \mbox{\hyperlink{classAuthWindow_aef2334b793a82a88ef321b75b4bedbc6}{m\+\_\+password\+Edit}}
+\item 
+QLine\+Edit $\ast$ \mbox{\hyperlink{classAuthWindow_a97b5e193e43c7353e7b1df76b76f558b}{m\+\_\+email\+Edit}}
+\item 
+QPush\+Button $\ast$ \mbox{\hyperlink{classAuthWindow_acb8ab39fc0447e08c1eef4416c4dc8ce}{m\+\_\+action\+Button}}
+\item 
+QPush\+Button $\ast$ \mbox{\hyperlink{classAuthWindow_a03e1406cf006f6c8fe053a81219e0703}{m\+\_\+switch\+Button}}
+\item 
+QLabel $\ast$ \mbox{\hyperlink{classAuthWindow_aa6af64f99d3b74ab0ce281bbed8b5408}{m\+\_\+status\+Label}}
+\item 
+QLabel $\ast$ \mbox{\hyperlink{classAuthWindow_ac1678ce6c70c31bc020655e0a93b2c53}{m\+\_\+email\+Label}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classAuthWindow_af2cdee37721f32406db8fef61cdb3dc1}\label{classAuthWindow_af2cdee37721f32406db8fef61cdb3dc1}} 
+\index{AuthWindow@{AuthWindow}!AuthWindow@{AuthWindow}}
+\index{AuthWindow@{AuthWindow}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{AuthWindow()}{AuthWindow()}}
+{\footnotesize\ttfamily Auth\+Window\+::\+Auth\+Window (\begin{DoxyParamCaption}\item[{QWidget $\ast$}]{parent = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classAuthWindow_a4f110ced4881e0f20495175f73e5e572}\label{classAuthWindow_a4f110ced4881e0f20495175f73e5e572}} 
+\index{AuthWindow@{AuthWindow}!````~AuthWindow@{$\sim$AuthWindow}}
+\index{````~AuthWindow@{$\sim$AuthWindow}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{$\sim$AuthWindow()}{~AuthWindow()}}
+{\footnotesize\ttfamily Auth\+Window\+::$\sim$\+Auth\+Window (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAuthWindow_affb1755da8ffd5e7712aea017482e4b0}\label{classAuthWindow_affb1755da8ffd5e7712aea017482e4b0}} 
+\index{AuthWindow@{AuthWindow}!authSuccess@{authSuccess}}
+\index{authSuccess@{authSuccess}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{authSuccess}{authSuccess}}
+{\footnotesize\ttfamily void Auth\+Window\+::auth\+Success (\begin{DoxyParamCaption}\item[{const QString \&}]{login }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [signal]}}
+
+\mbox{\Hypertarget{classAuthWindow_ac0295f11e8ce5a09f8c8fab18ae319cb}\label{classAuthWindow_ac0295f11e8ce5a09f8c8fab18ae319cb}} 
+\index{AuthWindow@{AuthWindow}!onConnected@{onConnected}}
+\index{onConnected@{onConnected}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onConnected}{onConnected}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Connected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_a8ab12a7e41f91600f51b8ddcc6f5afdb}\label{classAuthWindow_a8ab12a7e41f91600f51b8ddcc6f5afdb}} 
+\index{AuthWindow@{AuthWindow}!onError@{onError}}
+\index{onError@{onError}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onError}{onError}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Error (\begin{DoxyParamCaption}\item[{QAbstract\+Socket\+::\+Socket\+Error}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_a227317fac48b8ce605e6fc4b737b93b8}\label{classAuthWindow_a227317fac48b8ce605e6fc4b737b93b8}} 
+\index{AuthWindow@{AuthWindow}!onForgotPassword@{onForgotPassword}}
+\index{onForgotPassword@{onForgotPassword}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onForgotPassword}{onForgotPassword}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Forgot\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_a3f98781432302ea8839b5d3900f8d291}\label{classAuthWindow_a3f98781432302ea8839b5d3900f8d291}} 
+\index{AuthWindow@{AuthWindow}!onLogin@{onLogin}}
+\index{onLogin@{onLogin}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onLogin}{onLogin}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Login (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_a9b2f115ccaed3c802887bbf8f71fb60d}\label{classAuthWindow_a9b2f115ccaed3c802887bbf8f71fb60d}} 
+\index{AuthWindow@{AuthWindow}!onReadyRead@{onReadyRead}}
+\index{onReadyRead@{onReadyRead}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onReadyRead}{onReadyRead}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Ready\+Read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_af67111b954528acf41c7b83cbcc4ad04}\label{classAuthWindow_af67111b954528acf41c7b83cbcc4ad04}} 
+\index{AuthWindow@{AuthWindow}!onRegister@{onRegister}}
+\index{onRegister@{onRegister}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{onRegister}{onRegister}}
+{\footnotesize\ttfamily void Auth\+Window\+::on\+Register (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_ae6edecabe27ef732432ecaca24f31e2e}\label{classAuthWindow_ae6edecabe27ef732432ecaca24f31e2e}} 
+\index{AuthWindow@{AuthWindow}!sendCommand@{sendCommand}}
+\index{sendCommand@{sendCommand}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{sendCommand()}{sendCommand()}}
+{\footnotesize\ttfamily void Auth\+Window\+::send\+Command (\begin{DoxyParamCaption}\item[{const QString \&}]{cmd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a32b6b3441d8ee1209b9ffbe95d3e1c8d}\label{classAuthWindow_a32b6b3441d8ee1209b9ffbe95d3e1c8d}} 
+\index{AuthWindow@{AuthWindow}!switchToLogin@{switchToLogin}}
+\index{switchToLogin@{switchToLogin}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{switchToLogin}{switchToLogin}}
+{\footnotesize\ttfamily void Auth\+Window\+::switch\+To\+Login (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+\mbox{\Hypertarget{classAuthWindow_ae050773d0745d8ddc7f903985fe6e611}\label{classAuthWindow_ae050773d0745d8ddc7f903985fe6e611}} 
+\index{AuthWindow@{AuthWindow}!switchToRegister@{switchToRegister}}
+\index{switchToRegister@{switchToRegister}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{switchToRegister}{switchToRegister}}
+{\footnotesize\ttfamily void Auth\+Window\+::switch\+To\+Register (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [slot]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classAuthWindow_acb8ab39fc0447e08c1eef4416c4dc8ce}\label{classAuthWindow_acb8ab39fc0447e08c1eef4416c4dc8ce}} 
+\index{AuthWindow@{AuthWindow}!m\_actionButton@{m\_actionButton}}
+\index{m\_actionButton@{m\_actionButton}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_actionButton}{m\_actionButton}}
+{\footnotesize\ttfamily QPush\+Button$\ast$ Auth\+Window\+::m\+\_\+action\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a97b5e193e43c7353e7b1df76b76f558b}\label{classAuthWindow_a97b5e193e43c7353e7b1df76b76f558b}} 
+\index{AuthWindow@{AuthWindow}!m\_emailEdit@{m\_emailEdit}}
+\index{m\_emailEdit@{m\_emailEdit}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_emailEdit}{m\_emailEdit}}
+{\footnotesize\ttfamily QLine\+Edit$\ast$ Auth\+Window\+::m\+\_\+email\+Edit\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_ac1678ce6c70c31bc020655e0a93b2c53}\label{classAuthWindow_ac1678ce6c70c31bc020655e0a93b2c53}} 
+\index{AuthWindow@{AuthWindow}!m\_emailLabel@{m\_emailLabel}}
+\index{m\_emailLabel@{m\_emailLabel}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_emailLabel}{m\_emailLabel}}
+{\footnotesize\ttfamily QLabel$\ast$ Auth\+Window\+::m\+\_\+email\+Label\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a68cc491e5e6e7490d919b642770afa15}\label{classAuthWindow_a68cc491e5e6e7490d919b642770afa15}} 
+\index{AuthWindow@{AuthWindow}!m\_isLoginMode@{m\_isLoginMode}}
+\index{m\_isLoginMode@{m\_isLoginMode}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_isLoginMode}{m\_isLoginMode}}
+{\footnotesize\ttfamily bool Auth\+Window\+::m\+\_\+is\+Login\+Mode\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a62d4dddd409d4ace9d3e146fc2e44c94}\label{classAuthWindow_a62d4dddd409d4ace9d3e146fc2e44c94}} 
+\index{AuthWindow@{AuthWindow}!m\_loginEdit@{m\_loginEdit}}
+\index{m\_loginEdit@{m\_loginEdit}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_loginEdit}{m\_loginEdit}}
+{\footnotesize\ttfamily QLine\+Edit$\ast$ Auth\+Window\+::m\+\_\+login\+Edit\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_aef2334b793a82a88ef321b75b4bedbc6}\label{classAuthWindow_aef2334b793a82a88ef321b75b4bedbc6}} 
+\index{AuthWindow@{AuthWindow}!m\_passwordEdit@{m\_passwordEdit}}
+\index{m\_passwordEdit@{m\_passwordEdit}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_passwordEdit}{m\_passwordEdit}}
+{\footnotesize\ttfamily QLine\+Edit$\ast$ Auth\+Window\+::m\+\_\+password\+Edit\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a7c1bbee7bf1c205e92ce7da6fbe3016d}\label{classAuthWindow_a7c1bbee7bf1c205e92ce7da6fbe3016d}} 
+\index{AuthWindow@{AuthWindow}!m\_socket@{m\_socket}}
+\index{m\_socket@{m\_socket}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_socket}{m\_socket}}
+{\footnotesize\ttfamily QTcp\+Socket$\ast$ Auth\+Window\+::m\+\_\+socket\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_aa6af64f99d3b74ab0ce281bbed8b5408}\label{classAuthWindow_aa6af64f99d3b74ab0ce281bbed8b5408}} 
+\index{AuthWindow@{AuthWindow}!m\_statusLabel@{m\_statusLabel}}
+\index{m\_statusLabel@{m\_statusLabel}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_statusLabel}{m\_statusLabel}}
+{\footnotesize\ttfamily QLabel$\ast$ Auth\+Window\+::m\+\_\+status\+Label\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classAuthWindow_a03e1406cf006f6c8fe053a81219e0703}\label{classAuthWindow_a03e1406cf006f6c8fe053a81219e0703}} 
+\index{AuthWindow@{AuthWindow}!m\_switchButton@{m\_switchButton}}
+\index{m\_switchButton@{m\_switchButton}!AuthWindow@{AuthWindow}}
+\doxysubsubsection{\texorpdfstring{m\_switchButton}{m\_switchButton}}
+{\footnotesize\ttfamily QPush\+Button$\ast$ Auth\+Window\+::m\+\_\+switch\+Button\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+client/\mbox{\hyperlink{authwindow_8h}{authwindow.\+h}}\item 
+client/\mbox{\hyperlink{authwindow_8cpp}{authwindow.\+cpp}}\item 
+client/\mbox{\hyperlink{moc__authwindow_8cpp}{moc\+\_\+authwindow.\+cpp}}\end{DoxyCompactItemize}
