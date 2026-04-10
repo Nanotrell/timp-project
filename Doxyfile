@@ -1,16 +1,31 @@
+# Название проекта
 PROJECT_NAME           = "Function Plotter"
+
+# Версия
 PROJECT_NUMBER         = 1.0
-OUTPUT_DIRECTORY       = ./docs
+
+# Входные директории (где искать код)
 INPUT                  = ./server ./client
+
+# Рекурсивно обходить поддиректории
 RECURSIVE              = YES
+
+# Какие файлы обрабатывать
 FILE_PATTERNS          = *.cpp *.h
+
+# Выходная директория
+OUTPUT_DIRECTORY       = ./docs
+
+# Генерировать HTML
 GENERATE_HTML          = YES
-GENERATE_LATEX         = NO
+
+# Генерировать диаграммы (нужен graphviz)
+HAVE_DOT               = YES
+
+# Включить всё (включая приватные методы)
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
-SOURCE_BROWSER         = YES
-INLINE_SOURCES         = YES
-HTML_COLORSTYLE_HUE    = 200
-HTML_COLORSTYLE_SAT    = 100
-HTML_COLORSTYLE_GAMMA  = 80
+
+# Включить поиск
+SEARCHENGINE           = YES
