@@ -21,12 +21,8 @@ services:
   server:
     build: ./server
     container_name: function_plotter_server
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: plotter_user
-      POSTGRES_PASSWORD: plotter123
-      POSTGRES_DB: function_plotter
+    env_file:
+      - .env
     ports:
       - "33333:33333"
     depends_on:

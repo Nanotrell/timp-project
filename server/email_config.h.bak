@@ -1,0 +1,17 @@
+#ifndef EMAIL_CONFIG_H
+#define EMAIL_CONFIG_H
+
+#include <QString>
+#include <QProcessEnvironment>
+
+// ============================================
+// НАСТРОЙКИ SMTP - ЧЕРЕЗ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ
+// ============================================
+
+static const QString SMTP_HOST = qgetenv("SMTP_HOST");
+static const int SMTP_PORT = qgetenv("SMTP_PORT").toInt();
+static const QString SMTP_USER = qgetenv("SMTP_USER");
+static const QString SMTP_PASSWORD = qgetenv("SMTP_PASSWORD");
+static const QString FROM_EMAIL = qgetenv("FROM_EMAIL");
+
+#endif // EMAIL_CONFIG_H
