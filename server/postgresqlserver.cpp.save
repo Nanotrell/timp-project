@@ -8,20 +8,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTcpSocket>
+#include <QSslSocket>
 #include <QRegularExpression>
 
-// ========== ОТПРАВКА EMAIL (только вывод в консоль) ==========
-void sendEmail(const QString& to, const QString& subject, const QString& body)
-{
-    qDebug() << "========================================";
-    qDebug() << "📧 Email to:" << to;
-    
-    QRegularExpression re("(\\d{6})");
-    QRegularExpressionMatch match = re.match(body);
-    QString code = match.hasMatch() ? match.captured(1) : "???";
-    qDebug() << "🔑 Код для восстановления:" << code;
-    qDebug() << "========================================";
-}
+// ========== ОТПРАВКА EMAIL ==========
+void sendEmail(const QString& to, const QString& subject, const QString& body) {     qDebug() << "========================================";     qDebug() << "📧 Email to:" << to;          QRegularExpression re("(\\d{6})");     QRegularExpressionMatch match = re.match(body);     QString code = match.hasMatch() ? match.captured(1) : "???";     qDebug() << "🔑 Код:" << code;          QString smtpUser = qgetenv("SMTP_USER");     if (smtpUser.isEmpty() || smtpUser == "your-email@gmail.com") {         qDebug() << "⚠️ SMTP не настроен! Код для теста:" << code;         qDebug() << "========================================";         return;     }          // Вызов Python скрипта для отправки     QString cmd = QString("python3 /root/server/send_email.py \"%1\" \"%2\" \"%3\" 2>&1")                       .arg(to, subject, body);          FILE* pipe = popen(cmd.toUtf8(), "r");     if (!pipe) {         qDebug() << "⚠️ Не удалось запустить Python скрипт";         return;     }          char buffer[256];     QString result;     while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {         result += buffer;     }     int exitCode = pclose(pipe);          if (exitCode == 0 && result.contains("OK")) {         qDebug() << "✅ Email отправлен на" << to;     } else {         qDebug() << "⚠️ Ошибка отправки:" << result.trimmed();         qDebug() << "⚠️ Используйте код для теста:" << code;     }     qDebug() << "========================================"; } 
 
 // ========== КОНСТРУКТОР ==========
 PostgreSQLServer::PostgreSQLServer(QObject *parent) : QObject(parent)
@@ -185,41 +176,6 @@ void PostgreSQLServer::processRequest(QTcpSocket* client, const QString& request
         db->clearResetToken(code);
         sendResponse(client, "RESET_SUCCESS|Password updated");
     }
-    else if (cmd == "calc" && parts.size() >= 4) {
-        double a = parts[1].toDouble();
-        double b = parts[2].toDouble();
-        double c = parts[3].toDouble();
-        
-        FunctionParams params(a, b, c);
-        
-        // 200 точек для графика
-        QVector<QPointF> graphPoints = MathEngine::generatePoints(params, 200);
-        QJsonArray graphArray;
-        for (const QPointF& p : graphPoints) {
-            QJsonObject obj;
-            obj["x"] = p.x();
-            obj["y"] = p.y();
-            graphArray.append(obj);
-        }
-        
-        // 20 точек для таблицы
-        QVector<QPointF> tablePoints = MathEngine::generateDisplayPoints(params);
-        QJsonArray tableArray;
-        for (const QPointF& p : tablePoints) {
-            QJsonObject obj;
-            obj["x"] = p.x();
-            obj["y"] = p.y();
-            tableArray.append(obj);
-        }
-        
-        QJsonObject response;
-        response["type"] = "CALC_RESPONSE";
-        response["graphPoints"] = graphArray;
-        response["tablePoints"] = tableArray;
-        
-        client->write(QJsonDocument(response).toJson());
-        client->write("\n");
-        qDebug() << "📊 Отправлено:" << graphPoints.size() << "точек для графика," << tablePoints.size() << "для таблицы";
     }
     else {
         sendResponse(client, "ERROR|Unknown command");

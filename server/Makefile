@@ -391,7 +391,8 @@ main.o: main.cpp postgresqlserver.h \
 postgresqlserver.o: postgresqlserver.cpp postgresqlserver.h \
 		math_engine.h \
 		database.h \
-		auth.h
+		auth.h \
+		email_config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o postgresqlserver.o postgresqlserver.cpp
 
 database.o: database.cpp database.h

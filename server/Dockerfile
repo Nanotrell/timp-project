@@ -1,10 +1,8 @@
 FROM ubuntu:22.04
 
-# Устанавливаем часовой пояс
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Устанавливаем зависимости
 RUN apt-get update && apt-get install -y \
     qtbase5-dev \
     qtchooser \
@@ -15,12 +13,16 @@ RUN apt-get update && apt-get install -y \
     libqt5sql5-psql \
     libpq-dev \
     postgresql-client \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/server/
+
 COPY *.cpp /root/server/
 COPY *.h /root/server/
 COPY *.pro /root/server/
+COPY send_email.py /root/server/
 
 RUN qmake server.pro && make
 

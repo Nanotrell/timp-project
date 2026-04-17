@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTimer>
-#include <QVBoxLayout>
 #include "plotwidget.h"
 
 class MainWindow : public QMainWindow
@@ -18,16 +17,12 @@ public:
     explicit MainWindow(const QString& login, QWidget *parent = nullptr);
     ~MainWindow();
 
-protected:
-    void resizeEvent(QResizeEvent* event) override;
-
 private slots:
     void onParamsChanged();
     void onCalcResponse();
     void onDisconnect();
 
 private:
-    void setupUI();
     void sendCalcRequest();
     void updateTable(const QVector<QPointF>& points);
     
@@ -40,7 +35,6 @@ private:
     QLabel* m_labelA;
     QLabel* m_labelB;
     QLabel* m_labelC;
-    QVBoxLayout* m_mainLayout;
     QString m_login;
 };
 

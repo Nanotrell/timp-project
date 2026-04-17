@@ -1,3 +1,80 @@
+#!/bin/bash
+# ============================================================================
+# ПОЛНЫЙ СКРИПТ: ИСПРАВЛЕНИЕ ОТПРАВКИ EMAIL ЧЕРЕЗ SMTP
+# ============================================================================
+
+set -e
+
+PROJECT_DIR=~/projects/function-plotter-copy/timp-project
+cd $PROJECT_DIR
+
+echo "=========================================="
+echo "  НАСТРОЙКА РЕАЛЬНОЙ ОТПРАВКИ EMAIL"
+echo "=========================================="
+
+# ============================================================================
+# 1. ОБНОВЛЕНИЕ send_email.py
+# ============================================================================
+echo ""
+echo "1. Обновление Python скрипта для отправки email..."
+
+cat > server/send_email.py << 'EOF'
+#!/usr/bin/env python3
+import smtplib
+import sys
+import os
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+def send_email(to_email, subject, body):
+    smtp_host = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
+    smtp_port = int(os.environ.get('SMTP_PORT', 587))
+    smtp_user = os.environ.get('SMTP_USER', '')
+    smtp_password = os.environ.get('SMTP_PASSWORD', '')
+    from_email = os.environ.get('FROM_EMAIL', smtp_user)
+    
+    if not smtp_user or not smtp_password:
+        print("ERROR: SMTP not configured")
+        return False
+    
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = to_email
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'html'))
+        
+        server = smtplib.SMTP(smtp_host, smtp_port)
+        server.starttls()
+        server.login(smtp_user, smtp_password)
+        server.send_message(msg)
+        server.quit()
+        
+        print("OK")
+        return True
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) >= 4:
+        success = send_email(sys.argv[1], sys.argv[2], sys.argv[3])
+        sys.exit(0 if success else 1)
+    else:
+        print("Usage: send_email.py to subject body")
+        sys.exit(1)
+EOF
+
+chmod +x server/send_email.py
+echo "   ✅ send_email.py обновлен"
+
+# ============================================================================
+# 2. ОБНОВЛЕНИЕ postgresqlserver.cpp
+# ============================================================================
+echo ""
+echo "2. Обновление функции sendEmail в сервере..."
+
+cat > server/postgresqlserver.cpp << 'EOF'
 #include "postgresqlserver.h"
 #include "database.h"
 #include "math_engine.h"
@@ -8,9 +85,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QTcpSocket>
+#include <QSslSocket>
 #include <QRegularExpression>
 
-// ========== ОТПРАВКА EMAIL (только вывод в консоль) ==========
+// ========== ОТПРАВКА EMAIL ==========
 void sendEmail(const QString& to, const QString& subject, const QString& body)
 {
     qDebug() << "========================================";
@@ -19,7 +97,37 @@ void sendEmail(const QString& to, const QString& subject, const QString& body)
     QRegularExpression re("(\\d{6})");
     QRegularExpressionMatch match = re.match(body);
     QString code = match.hasMatch() ? match.captured(1) : "???";
-    qDebug() << "🔑 Код для восстановления:" << code;
+    qDebug() << "🔑 Код:" << code;
+    
+    QString smtpUser = qgetenv("SMTP_USER");
+    if (smtpUser.isEmpty() || smtpUser == "your-email@gmail.com") {
+        qDebug() << "⚠️ SMTP не настроен! Код для теста:" << code;
+        qDebug() << "========================================";
+        return;
+    }
+    
+    QString cmd = QString("python3 /root/server/send_email.py \"%1\" \"%2\" \"%3\" 2>&1")
+                      .arg(to, subject, body);
+    
+    FILE* pipe = popen(cmd.toUtf8(), "r");
+    if (!pipe) {
+        qDebug() << "⚠️ Не удалось запустить Python скрипт";
+        return;
+    }
+    
+    char buffer[256];
+    QString result;
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        result += buffer;
+    }
+    int exitCode = pclose(pipe);
+    
+    if (exitCode == 0 && result.contains("OK")) {
+        qDebug() << "✅ Email отправлен на" << to;
+    } else {
+        qDebug() << "⚠️ Ошибка отправки:" << result.trimmed();
+        qDebug() << "⚠️ Используйте код для теста:" << code;
+    }
     qDebug() << "========================================";
 }
 
@@ -192,7 +300,6 @@ void PostgreSQLServer::processRequest(QTcpSocket* client, const QString& request
         
         FunctionParams params(a, b, c);
         
-        // 200 точек для графика
         QVector<QPointF> graphPoints = MathEngine::generatePoints(params, 200);
         QJsonArray graphArray;
         for (const QPointF& p : graphPoints) {
@@ -202,7 +309,6 @@ void PostgreSQLServer::processRequest(QTcpSocket* client, const QString& request
             graphArray.append(obj);
         }
         
-        // 20 точек для таблицы
         QVector<QPointF> tablePoints = MathEngine::generateDisplayPoints(params);
         QJsonArray tableArray;
         for (const QPointF& p : tablePoints) {
@@ -231,3 +337,98 @@ void PostgreSQLServer::sendResponse(QTcpSocket* client, const QString& response)
     client->write(response.toUtf8());
     client->write("\n");
 }
+EOF
+
+echo "   ✅ postgresqlserver.cpp обновлен"
+
+# ============================================================================
+# 3. ОБНОВЛЕНИЕ .env ФАЙЛА
+# ============================================================================
+echo ""
+echo "3. Обновление .env файла..."
+
+cat > .env << 'EOF'
+# PostgreSQL
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USER=plotter_user
+POSTGRES_PASSWORD=plotter123
+POSTGRES_DB=function_plotter
+
+# SMTP - ЗАМЕНИТЕ НА СВОИ ДАННЫЕ!
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=krasnovav932@gmail.com
+SMTP_PASSWORD=nwtpimugzozbedrp
+FROM_EMAIL=krasnovav932@gmail.com
+EOF
+
+echo "   ✅ .env создан"
+echo "   ⚠️ Проверьте и при необходимости отредактируйте .env"
+
+# ============================================================================
+# 4. ПРОВЕРКА .gitignore
+# ============================================================================
+echo ""
+echo "4. Обновление .gitignore..."
+
+if ! grep -q ".env" .gitignore; then
+    echo ".env" >> .gitignore
+    echo "server/email_config.h" >> .gitignore
+fi
+
+echo "   ✅ .gitignore обновлен"
+
+# ============================================================================
+# 5. ПЕРЕСБОРКА И ЗАПУСК
+# ============================================================================
+echo ""
+echo "5. Пересборка и запуск..."
+
+cd server
+make clean 2>/dev/null
+qmake server.pro 2>/dev/null
+make -j$(nproc) 2>/dev/null
+
+cd ..
+docker-compose down 2>/dev/null
+docker-compose build --no-cache server 2>/dev/null
+docker-compose up -d 2>/dev/null
+
+echo "   ✅ Сервер пересобран и запущен"
+
+# ============================================================================
+# 6. ПРОВЕРКА ПЕРЕМЕННЫХ ОКРУЖЕНИЯ
+# ============================================================================
+echo ""
+echo "6. Проверка переменных окружения в контейнере..."
+
+sleep 3
+docker exec function_plotter_server env | grep SMTP || echo "   ⚠️ Переменные SMTP не найдены"
+
+# ============================================================================
+# 7. ИТОГ
+# ============================================================================
+echo ""
+echo "=========================================="
+echo "  ГОТОВО!"
+echo "=========================================="
+echo ""
+echo "✅ Что сделано:"
+echo "   - Обновлен Python скрипт для отправки email"
+echo "   - Обновлена функция sendEmail в сервере"
+echo "   - Создан .env файл с настройками SMTP"
+echo "   - Сервер пересобран и запущен"
+echo ""
+echo "📧 Проверьте .env файл и укажите свои SMTP данные:"
+echo "   nano ~/projects/function-plotter-copy/timp-project/.env"
+echo ""
+echo "🚀 Проверить логи:"
+echo "   docker-compose logs -f server"
+echo ""
+echo "🔑 Код для теста выводится в консоль сервера"
+echo "=========================================="
+EOF
+
+chmod +x fix_email.sh
+./fix_email.sh

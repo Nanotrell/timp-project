@@ -8,10 +8,14 @@ SOURCES += \
     authwindow.cpp \
     mainwindow.cpp \
     plotwidget.cpp \
-    resetpassworddialog.cpp
+    resetpassworddialog.cpp \
+    welcomewindow.cpp \
+    formulawidget.cpp
 
 HEADERS += \
     authwindow.h \
     mainwindow.h \
     plotwidget.h \
-    resetpassworddialog.h
+    resetpassworddialog.h \
+    welcomewindow.h \
+    formulawidget.h

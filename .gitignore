@@ -20,3 +20,5 @@ docs/latex/
 secrets.h
 *.pem
 *.key
+server/email_config.h
+*.pyc
