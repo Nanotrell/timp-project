@@ -95,14 +95,27 @@ void PlotWidget::drawAxes(QPainter& painter)
 void PlotWidget::drawFunction(QPainter& painter)
 {
     if (m_points.isEmpty()) return;
-    
-    painter.setPen(QPen(Qt::blue, 2));
-    
-    QPointF prev = worldToWidget(m_points[0]);
+
+    // Цвета для трёх веток
+    QColor colorBranch1 = QColor(255, 80, 80);   // Красный (x < 0)
+    QColor colorBranch2 = QColor(80, 255, 80);   // Зелёный (0 ≤ x < 2)
+    QColor colorBranch3 = QColor(80, 80, 255);   // Синий (x ≥ 2)
+
     for (int i = 1; i < m_points.size(); ++i) {
-        QPointF curr = worldToWidget(m_points[i]);
-        painter.drawLine(prev, curr);
-        prev = curr;
+        const QPointF& prev = m_points[i - 1];
+        const QPointF& curr = m_points[i];
+
+        QColor segmentColor;
+        if (prev.x() < 0) {
+            segmentColor = colorBranch1;
+        } else if (prev.x() < 2) {
+            segmentColor = colorBranch2;
+        } else {
+            segmentColor = colorBranch3;
+        }
+
+        painter.setPen(QPen(segmentColor, 2));
+        painter.drawLine(worldToWidget(prev), worldToWidget(curr));
     }
 }
 
