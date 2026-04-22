@@ -12,14 +12,14 @@
 #include <QSlider>
 #include <QTableWidget>
 #include <QPushButton>
-#include <QResizeEvent>
 #include <QTimer>
+#include <QComboBox>
 
 MainWindow::MainWindow(const QString& login, QWidget *parent) : QMainWindow(parent), m_login(login)
 {
     setWindowTitle("Function Plotter - " + login);
-    setMinimumSize(800, 700);
-    resize(1000, 750);
+    setMinimumSize(800, 750);
+    resize(1000, 800);
     
     QWidget* central = new QWidget(this);
     setCentralWidget(central);
@@ -91,6 +91,22 @@ MainWindow::MainWindow(const QString& login, QWidget *parent) : QMainWindow(pare
     cLayout->addStretch();
     paramsLayout->addLayout(cLayout);
     
+    // Количество точек
+    QHBoxLayout* pointsLayout = new QHBoxLayout();
+    QLabel* pointsLabel = new QLabel("Количество точек:");
+    pointsLabel->setFixedWidth(80);
+    m_numPointsCombo = new QComboBox();
+    m_numPointsCombo->addItems({"50", "100", "200", "300", "500"});
+    m_numPointsCombo->setCurrentText("200");
+    m_numPointsCombo->setFixedWidth(100);
+    QLabel* pointsHint = new QLabel("(больше точек = точнее график)");
+    pointsHint->setStyleSheet("color: #888; font-size: 9px;");
+    pointsLayout->addWidget(pointsLabel);
+    pointsLayout->addWidget(m_numPointsCombo);
+    pointsLayout->addWidget(pointsHint);
+    pointsLayout->addStretch();
+    paramsLayout->addLayout(pointsLayout);
+    
     mainLayout->addWidget(paramsBox);
     
     // ========== ГРАФИК ==========
@@ -122,16 +138,17 @@ MainWindow::MainWindow(const QString& login, QWidget *parent) : QMainWindow(pare
     connect(m_socket, &QTcpSocket::readyRead, this, &MainWindow::onCalcResponse);
     connect(m_socket, &QTcpSocket::connected, this, [this]() {
         qDebug() << "Подключено к серверу";
-        onParamsChanged();  // ← запрос на построение графика сразу после подключения
+        onParamsChanged();
     });
     m_socket->connectToHost("localhost", 33333);
     
-    // ========== СИГНАЛЫ ПОЛЗУНКОВ ==========
+    // ========== СИГНАЛЫ ==========
     connect(m_sliderA, &QSlider::valueChanged, this, &MainWindow::onParamsChanged);
     connect(m_sliderB, &QSlider::valueChanged, this, &MainWindow::onParamsChanged);
     connect(m_sliderC, &QSlider::valueChanged, this, &MainWindow::onParamsChanged);
+    connect(m_numPointsCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), 
+            this, &MainWindow::onNumPointsChanged);
     
-    // Запасной таймер на случай, если сокет не подключился быстро
     QTimer::singleShot(1500, this, [this]() {
         if (m_socket->state() == QAbstractSocket::ConnectedState) {
             onParamsChanged();
@@ -144,6 +161,14 @@ MainWindow::~MainWindow()
     if (m_socket && m_socket->state() == QAbstractSocket::ConnectedState) {
         m_socket->disconnectFromHost();
     }
+}
+
+void MainWindow::onNumPointsChanged(int index)
+{
+    Q_UNUSED(index);
+    m_numPoints = m_numPointsCombo->currentText().toInt();
+    m_plotWidget->setNumPoints(m_numPoints);
+    sendCalcRequest();  // ← КЛЮЧЕВОЙ МОМЕНТ: пересчитываем график
 }
 
 void MainWindow::onParamsChanged()
@@ -163,9 +188,10 @@ void MainWindow::sendCalcRequest()
     double a = m_sliderA->value() / 10.0;
     double b = m_sliderB->value() / 10.0;
     double c = m_sliderC->value() / 10.0;
-    QString cmd = QString("calc|%1|%2|%3\n").arg(a).arg(b).arg(c);
+    int points = m_numPoints;  // ← передаём количество точек на сервер
+    QString cmd = QString("calc|%1|%2|%3|%4\n").arg(a).arg(b).arg(c).arg(points);
     m_socket->write(cmd.toUtf8());
-    qDebug() << "Отправлен запрос:" << cmd.trimmed();
+    qDebug() << "📤 Отправлен запрос:" << cmd.trimmed();
 }
 
 void MainWindow::onCalcResponse()
@@ -173,28 +199,19 @@ void MainWindow::onCalcResponse()
     while (m_socket->bytesAvailable()) {
         QByteArray data = m_socket->readAll();
         QString dataStr = QString::fromUtf8(data);
-        qDebug() << "Получено:" << dataStr.left(200);
         
         if (!dataStr.trimmed().startsWith("{")) {
-            qDebug() << "Не JSON, пропускаем";
             continue;
         }
         
         QJsonDocument doc = QJsonDocument::fromJson(data);
         if (!doc.isObject()) {
-            qDebug() << "Не объект JSON";
             continue;
         }
         
         QJsonObject obj = doc.object();
         
-        if (obj.contains("a")) {
-            double a = obj["a"].toDouble();
-            double b = obj["b"].toDouble();
-            double c = obj["c"].toDouble();
-            m_plotWidget->setFunctionParams(a, b, c);
-        }
-        
+        // График
         if (obj.contains("graphPoints")) {
             QVector<QPointF> graphPoints;
             QJsonArray graphArray = obj["graphPoints"].toArray();
@@ -203,19 +220,10 @@ void MainWindow::onCalcResponse()
                 graphPoints.append(QPointF(p["x"].toDouble(), p["y"].toDouble()));
             }
             m_plotWidget->setPoints(graphPoints);
-            qDebug() << "График обновлен:" << graphPoints.size() << "точек";
-        }
-        else if (obj.contains("points")) {
-            QVector<QPointF> graphPoints;
-            QJsonArray graphArray = obj["points"].toArray();
-            for (const QJsonValue& val : graphArray) {
-                QJsonObject p = val.toObject();
-                graphPoints.append(QPointF(p["x"].toDouble(), p["y"].toDouble()));
-            }
-            m_plotWidget->setPoints(graphPoints);
-            qDebug() << "График обновлен (old format):" << graphPoints.size() << "точек";
+            qDebug() << "✅ График обновлен:" << graphPoints.size() << "точек";
         }
         
+        // Таблица
         if (obj.contains("tablePoints")) {
             QVector<QPointF> tablePoints;
             QJsonArray tableArray = obj["tablePoints"].toArray();
@@ -224,17 +232,7 @@ void MainWindow::onCalcResponse()
                 tablePoints.append(QPointF(p["x"].toDouble(), p["y"].toDouble()));
             }
             updateTable(tablePoints);
-            qDebug() << "Таблица обновлена:" << tablePoints.size() << "точек";
-        }
-        else if (obj.contains("points")) {
-            QVector<QPointF> tablePoints;
-            QJsonArray pointsArray = obj["points"].toArray();
-            for (int i = 0; i < pointsArray.size() && tablePoints.size() < 20; i += 10) {
-                QJsonObject p = pointsArray[i].toObject();
-                tablePoints.append(QPointF(p["x"].toDouble(), p["y"].toDouble()));
-            }
-            updateTable(tablePoints);
-            qDebug() << "Таблица обновлена из графика:" << tablePoints.size() << "точек";
+            qDebug() << "✅ Таблица обновлена:" << tablePoints.size() << "точек";
         }
     }
 }

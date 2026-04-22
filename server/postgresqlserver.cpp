@@ -2,7 +2,6 @@
 #include "database.h"
 #include "math_engine.h"
 #include "auth.h"
-#include "email_config.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -10,20 +9,21 @@
 #include <QTcpSocket>
 #include <QRegularExpression>
 
-// ========== ОТПРАВКА EMAIL (только вывод в консоль) ==========
+// ========== ОТПРАВКА EMAIL (упрощённая) ==========
 void sendEmail(const QString& to, const QString& subject, const QString& body)
 {
+    Q_UNUSED(subject);
     qDebug() << "========================================";
     qDebug() << "📧 Email to:" << to;
     
     QRegularExpression re("(\\d{6})");
     QRegularExpressionMatch match = re.match(body);
     QString code = match.hasMatch() ? match.captured(1) : "???";
-    qDebug() << "🔑 Код для восстановления:" << code;
+    qDebug() << "🔑 Код:" << code;
     qDebug() << "========================================";
 }
 
-// ========== КОНСТРУКТОР ==========
+// ========== КОНСТРУКТОР И ДЕСТРУКТОР ==========
 PostgreSQLServer::PostgreSQLServer(QObject *parent) : QObject(parent)
 {
     m_server = new QTcpServer(this);
@@ -35,7 +35,7 @@ PostgreSQLServer::PostgreSQLServer(QObject *parent) : QObject(parent)
         qDebug() << "Сервер запущен на порту 33333";
 
         QString dbHost = qgetenv("POSTGRES_HOST");
-        if (dbHost.isEmpty()) dbHost = "postgres";
+        if (dbHost.isEmpty()) dbHost = "localhost";
 
         QString dbName = qgetenv("POSTGRES_DB");
         if (dbName.isEmpty()) dbName = "function_plotter";
@@ -186,41 +186,51 @@ void PostgreSQLServer::processRequest(QTcpSocket* client, const QString& request
         sendResponse(client, "RESET_SUCCESS|Password updated");
     }
     else if (cmd == "calc" && parts.size() >= 4) {
-        double a = parts[1].toDouble();
-        double b = parts[2].toDouble();
-        double c = parts[3].toDouble();
-        
-        FunctionParams params(a, b, c);
-        
-        // 200 точек для графика
-        QVector<QPointF> graphPoints = MathEngine::generatePoints(params, 200);
-        QJsonArray graphArray;
-        for (const QPointF& p : graphPoints) {
-            QJsonObject obj;
-            obj["x"] = p.x();
-            obj["y"] = p.y();
-            graphArray.append(obj);
-        }
-        
-        // 20 точек для таблицы
-        QVector<QPointF> tablePoints = MathEngine::generateDisplayPoints(params);
-        QJsonArray tableArray;
-        for (const QPointF& p : tablePoints) {
-            QJsonObject obj;
-            obj["x"] = p.x();
-            obj["y"] = p.y();
-            tableArray.append(obj);
-        }
-        
-        QJsonObject response;
-        response["type"] = "CALC_RESPONSE";
-        response["graphPoints"] = graphArray;
-        response["tablePoints"] = tableArray;
-        
-        client->write(QJsonDocument(response).toJson());
-        client->write("\n");
-        qDebug() << "📊 Отправлено:" << graphPoints.size() << "точек для графика," << tablePoints.size() << "для таблицы";
+    double a = parts[1].toDouble();
+    double b = parts[2].toDouble();
+    double c = parts[3].toDouble();
+    
+    int numPoints = 200;  // значение по умолчанию
+    if (parts.size() >= 5) {
+        numPoints = parts[4].toInt();
+        // Ограничения
+        if (numPoints < 10) numPoints = 10;
+        if (numPoints > 1000) numPoints = 1000;
     }
+    
+    FunctionParams params(a, b, c);
+    
+    // numPoints точек для плавного графика (шаг = (xMax - xMin) / (numPoints - 1))
+    QVector<QPointF> graphPoints = MathEngine::generatePoints(params, numPoints);
+    QJsonArray graphArray;
+    for (const QPointF& p : graphPoints) {
+        QJsonObject obj;
+        obj["x"] = p.x();
+        obj["y"] = p.y();
+        graphArray.append(obj);
+    }
+    
+    // 20 точек для таблицы (всегда 20)
+    QVector<QPointF> tablePoints = MathEngine::generateDisplayPoints(params);
+    QJsonArray tableArray;
+    for (const QPointF& p : tablePoints) {
+        QJsonObject obj;
+        obj["x"] = p.x();
+        obj["y"] = p.y();
+        tableArray.append(obj);
+    }
+    
+    QJsonObject response;
+    response["type"] = "CALC_RESPONSE";
+    response["graphPoints"] = graphArray;
+    response["tablePoints"] = tableArray;
+    response["numPoints"] = numPoints;
+    
+    client->write(QJsonDocument(response).toJson());
+    client->write("\n");
+    qDebug() << "📊 Отправлено:" << graphPoints.size() << "точек для графика (шаг:" 
+             << (40.0 / (numPoints - 1)) << ")," << tablePoints.size() << "для таблицы";
+}
     else {
         sendResponse(client, "ERROR|Unknown command");
     }

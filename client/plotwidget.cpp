@@ -10,6 +10,12 @@ PlotWidget::PlotWidget(QWidget *parent) : QWidget(parent)
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
+    
+    // Фиксированный масштаб
+    m_xMin = -3.0;
+    m_xMax = 5.0;
+    m_yMin = -5.0;
+    m_yMax = 10.0;
 }
 
 void PlotWidget::setPoints(const QVector<QPointF>& points)
@@ -23,6 +29,12 @@ void PlotWidget::setFunctionParams(double a, double b, double c)
     m_a = a;
     m_b = b;
     m_c = c;
+    update();
+}
+
+void PlotWidget::setNumPoints(int numPoints)
+{
+    m_numPoints = numPoints;
     update();
 }
 
@@ -92,64 +104,93 @@ void PlotWidget::drawAxes(QPainter& painter)
     }
 }
 
+// void PlotWidget::drawFunction(QPainter& painter)
+// {
+//     if (m_points.isEmpty()) return;
+    
+//     painter.setPen(QPen(Qt::blue, 2));
+    
+//     QPointF prev = worldToWidget(m_points[0]);
+//     for (int i = 1; i < m_points.size(); ++i) {
+//         QPointF curr = worldToWidget(m_points[i]);
+//         painter.drawLine(prev, curr);
+//         prev = curr;
+//     }
+// }
+
 void PlotWidget::drawFunction(QPainter& painter)
 {
-    if (m_points.isEmpty()) return;
-    
-    painter.setPen(QPen(Qt::blue, 2));
-    
-    QPointF prev = worldToWidget(m_points[0]);
+    if (m_points.size() < 2) return;
+
+    // Цвета для трёх веток
+    QColor colorBranch1 = QColor(255, 80, 80);   // Красный (x < 0)
+    QColor colorBranch2 = QColor(80, 255, 80);   // Зелёный (0 ≤ x < 2)
+    QColor colorBranch3 = QColor(80, 80, 255);   // Синий (x ≥ 2)
+
+    // Рисуем сегменты между соседними точками
     for (int i = 1; i < m_points.size(); ++i) {
-        QPointF curr = worldToWidget(m_points[i]);
-        painter.drawLine(prev, curr);
-        prev = curr;
+        const QPointF& p1 = m_points[i - 1];
+        const QPointF& p2 = m_points[i];
+        
+        // Определяем цвет по средней точке сегмента
+        double midX = (p1.x() + p2.x()) / 2.0;
+        QColor segmentColor;
+        if (midX < 0) {
+            segmentColor = colorBranch1;
+        } else if (midX < 2) {
+            segmentColor = colorBranch2;
+        } else {
+            segmentColor = colorBranch3;
+        }
+        
+        painter.setPen(QPen(segmentColor, 2));
+        
+        QPointF w1 = worldToWidget(p1);
+        QPointF w2 = worldToWidget(p2);
+        painter.drawLine(w1, w2);
     }
 }
 
 void PlotWidget::drawFormula(QPainter& painter)
 {
-    // Прямоугольник для формулы (сдвинут вправо)
-    int rectX = width() - 280;
+    int rectX = width() - 250;
     int rectY = 10;
-    int rectW = 270;
-    int rectH = 130;
+    int rectW = 240;
+    int rectH = 180;
     
     painter.save();
-    
-    painter.fillRect(rectX, rectY, rectW, rectH, QColor(255, 255, 255, 220));
+    painter.fillRect(rectX, rectY, rectW, rectH, QColor(255, 255, 255, 230));
     painter.setPen(QPen(Qt::black, 1));
     painter.drawRect(rectX, rectY, rectW, rectH);
     
-    painter.setFont(QFont("Times New Roman", 10));
-    painter.setPen(Qt::black);
+    // Загрузка и отрисовка изображения формулы
+    QPixmap pixmap("images/formula.jpg");
+    if (!pixmap.isNull()) {
+        QPixmap scaledPixmap = pixmap.scaled(rectW - 10, rectH - 40, 
+                                              Qt::KeepAspectRatio, 
+                                              Qt::SmoothTransformation);
+        painter.drawPixmap(rectX + 5, rectY + 5, scaledPixmap);
+    } else {
+        // Если картинка не загрузилась — рисуем текст
+        painter.setFont(QFont("Times New Roman", 9));
+        painter.setPen(Qt::black);
+        painter.drawText(rectX + 10, rectY + 20, "f(x) =");
+        painter.drawText(rectX + 30, rectY + 45, "{ a·x², x < 0");
+        painter.drawText(rectX + 30, rectY + 70, "{ x³-3x+b, 0≤x<2");
+        painter.drawText(rectX + 30, rectY + 95, "{ c·(x⁴-4x³+4x²), x≥2");
+    }
     
-    int x = rectX + 10;
-    int y = rectY + 20;
-    
-    painter.drawText(x, y, "f(x) =");
-    
-    // Фигурная скобка
-    painter.drawLine(x + 35, y + 5, x + 35, y + 85);
-    painter.drawLine(x + 35, y + 5, x + 45, y + 5);
-    painter.drawLine(x + 35, y + 85, x + 45, y + 85);
-    
-    // Уравнения
-    painter.drawText(x + 55, y + 15, "a * x²,");
-    painter.drawText(x + 150, y + 15, "x < 0");
-    
-    painter.drawText(x + 55, y + 45, "x³ - 3x + b,");
-    painter.drawText(x + 150, y + 45, "0 ≤ x < 2");
-    
-    painter.drawText(x + 55, y + 75, "c * (x⁴ - 4x³ + 4x²),");
-    painter.drawText(x + 150, y + 75, "x ≥ 2");
-    
-    // Текущие значения параметров
-    painter.setFont(QFont("Arial", 9));
+    // Параметры
+    painter.setFont(QFont("Arial", 8));
     painter.setPen(QPen(Qt::darkBlue, 1));
-    painter.drawText(x, y + 105, QString("a = %1   b = %2   c = %3")
-                    .arg(m_a, 0, 'f', 2)
-                    .arg(m_b, 0, 'f', 2)
-                    .arg(m_c, 0, 'f', 2));
+    painter.drawText(rectX + 10, rectY + 155, 
+                     QString("a = %1   b = %2   c = %3")
+                     .arg(m_a, 0, 'f', 2)
+                     .arg(m_b, 0, 'f', 2)
+                     .arg(m_c, 0, 'f', 2));
+    
+    painter.drawText(rectX + 10, rectY + 170, 
+                     QString("Точек: %1").arg(m_numPoints));
     
     painter.restore();
 }
@@ -166,53 +207,25 @@ void PlotWidget::paintEvent(QPaintEvent*)
     drawFormula(painter);
 }
 
+// Масштабирование отключено — пустые обработчики
 void PlotWidget::wheelEvent(QWheelEvent* event)
 {
-    double scale = (event->angleDelta().y() > 0) ? 0.9 : 1.1;
-    QPointF mouseWorld = widgetToWorld(event->position());
-    
-    double newWidth = (m_xMax - m_xMin) * scale;
-    double newHeight = (m_yMax - m_yMin) * scale;
-    
-    m_xMin = mouseWorld.x() - (mouseWorld.x() - m_xMin) * scale;
-    m_xMax = m_xMin + newWidth;
-    m_yMin = mouseWorld.y() - (mouseWorld.y() - m_yMin) * scale;
-    m_yMax = m_yMin + newHeight;
-    
-    update();
+    Q_UNUSED(event);
+    // Масштабирование отключено
 }
 
 void PlotWidget::mousePressEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
-        m_panning = true;
-        m_lastMousePos = event->pos();
-        setCursor(Qt::ClosedHandCursor);
-    }
+    Q_UNUSED(event);
+    // Панорамирование отключено
 }
 
 void PlotWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    if (m_panning) {
-        QPoint delta = event->pos() - m_lastMousePos;
-        
-        double dx = (delta.x() / (double)width()) * (m_xMax - m_xMin);
-        double dy = (delta.y() / (double)height()) * (m_yMax - m_yMin);
-        
-        m_xMin -= dx;
-        m_xMax -= dx;
-        m_yMin += dy;
-        m_yMax += dy;
-        
-        m_lastMousePos = event->pos();
-        update();
-    }
+    Q_UNUSED(event);
 }
 
 void PlotWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
-        m_panning = false;
-        setCursor(Qt::ArrowCursor);
-    }
+    Q_UNUSED(event);
 }

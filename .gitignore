@@ -14,8 +14,6 @@ docs/html/
 docs/latex/
 
 # Secrets
-.env
-.env.*
 *_config.h
 secrets.h
 *.pem

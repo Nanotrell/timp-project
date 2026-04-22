@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTimer>
+#include <QComboBox>
 #include "plotwidget.h"
 
 class MainWindow : public QMainWindow
@@ -20,6 +21,7 @@ public:
 private slots:
     void onParamsChanged();
     void onCalcResponse();
+    void onNumPointsChanged(int index);
     void onDisconnect();
 
 private:
@@ -35,7 +37,9 @@ private:
     QLabel* m_labelA;
     QLabel* m_labelB;
     QLabel* m_labelC;
+    QComboBox* m_numPointsCombo;
     QString m_login;
+    int m_numPoints = 200;
 };
 
 #endif // MAINWINDOW_H

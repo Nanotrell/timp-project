@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = client1.0.0
-DISTDIR = /home/oem123/projects/function-plotter-copy/timp-project/client/.tmp/client1.0.0
+DISTDIR = /home/oem123/timp-project/client/.tmp/client1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
@@ -58,25 +58,25 @@ SOURCES       = main.cpp \
 		plotwidget.cpp \
 		resetpassworddialog.cpp \
 		welcomewindow.cpp \
-		formulawidget.cpp moc_authwindow.cpp \
+		taskwindow.cpp moc_authwindow.cpp \
 		moc_mainwindow.cpp \
 		moc_plotwidget.cpp \
 		moc_resetpassworddialog.cpp \
 		moc_welcomewindow.cpp \
-		moc_formulawidget.cpp
+		moc_taskwindow.cpp
 OBJECTS       = main.o \
 		authwindow.o \
 		mainwindow.o \
 		plotwidget.o \
 		resetpassworddialog.o \
 		welcomewindow.o \
-		formulawidget.o \
+		taskwindow.o \
 		moc_authwindow.o \
 		moc_mainwindow.o \
 		moc_plotwidget.o \
 		moc_resetpassworddialog.o \
 		moc_welcomewindow.o \
-		moc_formulawidget.o
+		moc_taskwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -160,13 +160,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		plotwidget.h \
 		resetpassworddialog.h \
 		welcomewindow.h \
-		formulawidget.h main.cpp \
+		taskwindow.h main.cpp \
 		authwindow.cpp \
 		mainwindow.cpp \
 		plotwidget.cpp \
 		resetpassworddialog.cpp \
 		welcomewindow.cpp \
-		formulawidget.cpp
+		taskwindow.cpp
 QMAKE_TARGET  = client
 DESTDIR       = 
 TARGET        = client
@@ -352,8 +352,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents authwindow.h mainwindow.h plotwidget.h resetpassworddialog.h welcomewindow.h formulawidget.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp authwindow.cpp mainwindow.cpp plotwidget.cpp resetpassworddialog.cpp welcomewindow.cpp formulawidget.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents authwindow.h mainwindow.h plotwidget.h resetpassworddialog.h welcomewindow.h taskwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp authwindow.cpp mainwindow.cpp plotwidget.cpp resetpassworddialog.cpp welcomewindow.cpp taskwindow.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -385,39 +385,39 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_authwindow.cpp moc_mainwindow.cpp moc_plotwidget.cpp moc_resetpassworddialog.cpp moc_welcomewindow.cpp moc_formulawidget.cpp
+compiler_moc_header_make_all: moc_authwindow.cpp moc_mainwindow.cpp moc_plotwidget.cpp moc_resetpassworddialog.cpp moc_welcomewindow.cpp moc_taskwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_authwindow.cpp moc_mainwindow.cpp moc_plotwidget.cpp moc_resetpassworddialog.cpp moc_welcomewindow.cpp moc_formulawidget.cpp
+	-$(DEL_FILE) moc_authwindow.cpp moc_mainwindow.cpp moc_plotwidget.cpp moc_resetpassworddialog.cpp moc_welcomewindow.cpp moc_taskwindow.cpp
 moc_authwindow.cpp: authwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include authwindow.h -o moc_authwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include authwindow.h -o moc_authwindow.cpp
 
 moc_mainwindow.cpp: mainwindow.h \
 		plotwidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_plotwidget.cpp: plotwidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include plotwidget.h -o moc_plotwidget.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include plotwidget.h -o moc_plotwidget.cpp
 
 moc_resetpassworddialog.cpp: resetpassworddialog.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include resetpassworddialog.h -o moc_resetpassworddialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include resetpassworddialog.h -o moc_resetpassworddialog.cpp
 
 moc_welcomewindow.cpp: welcomewindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include welcomewindow.h -o moc_welcomewindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include welcomewindow.h -o moc_welcomewindow.cpp
 
-moc_formulawidget.cpp: formulawidget.h \
+moc_taskwindow.cpp: taskwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/projects/function-plotter-copy/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/projects/function-plotter-copy/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include formulawidget.h -o moc_formulawidget.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/oem123/timp-project/client/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/oem123/timp-project/client -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include taskwindow.h -o moc_taskwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -436,6 +436,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 ####### Compile
 
 main.o: main.cpp welcomewindow.h \
+		taskwindow.h \
 		authwindow.h \
 		mainwindow.h \
 		plotwidget.h
@@ -458,12 +459,11 @@ plotwidget.o: plotwidget.cpp plotwidget.h
 resetpassworddialog.o: resetpassworddialog.cpp resetpassworddialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o resetpassworddialog.o resetpassworddialog.cpp
 
-welcomewindow.o: welcomewindow.cpp welcomewindow.h \
-		formulawidget.h
+welcomewindow.o: welcomewindow.cpp welcomewindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o welcomewindow.o welcomewindow.cpp
 
-formulawidget.o: formulawidget.cpp formulawidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o formulawidget.o formulawidget.cpp
+taskwindow.o: taskwindow.cpp taskwindow.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o taskwindow.o taskwindow.cpp
 
 moc_authwindow.o: moc_authwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_authwindow.o moc_authwindow.cpp
@@ -480,8 +480,8 @@ moc_resetpassworddialog.o: moc_resetpassworddialog.cpp
 moc_welcomewindow.o: moc_welcomewindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_welcomewindow.o moc_welcomewindow.cpp
 
-moc_formulawidget.o: moc_formulawidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_formulawidget.o moc_formulawidget.cpp
+moc_taskwindow.o: moc_taskwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_taskwindow.o moc_taskwindow.cpp
 
 ####### Install
 

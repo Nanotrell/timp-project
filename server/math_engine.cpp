@@ -17,7 +17,6 @@ double MathEngine::calculate(double x, const FunctionParams& params)
     }
 }
 
-// 200 точек для плавного графика (диапазон от -20 до 20, шаг 0.2)
 QVector<QPointF> MathEngine::generatePoints(const FunctionParams& params, int numPoints)
 {
     QVector<QPointF> points;
@@ -35,7 +34,6 @@ QVector<QPointF> MathEngine::generatePoints(const FunctionParams& params, int nu
     return points;
 }
 
-// 20 точек для таблицы (диапазон от -20 до 20)
 QVector<QPointF> MathEngine::generateDisplayPoints(const FunctionParams& params)
 {
     QVector<QPointF> points;

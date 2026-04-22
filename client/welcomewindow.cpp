@@ -1,64 +1,69 @@
 #include "welcomewindow.h"
-#include "formulawidget.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QFont>
 #include <QScrollArea>
 
 WelcomeWindow::WelcomeWindow(QWidget *parent) : QWidget(parent)
 {
-    setWindowTitle("Добро пожаловать");
-    setMinimumSize(800, 550);
-    resize(1000, 650);
-    setStyleSheet("background-color: #2c3e50;");
+    setWindowTitle("Function Plotter");
+    setMinimumSize(800, 600);
+    resize(900, 700);
+    setStyleSheet("background-color: #f0f0f0;");
 
-    QHBoxLayout* mainLayout = new QHBoxLayout(this);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
-    mainLayout->setSpacing(30);
-
-    // Левая часть
-    QScrollArea* leftScroll = new QScrollArea();
-    leftScroll->setWidgetResizable(true);
-    leftScroll->setStyleSheet("background-color: transparent; border: none;");
+    // Добавляем ScrollArea для всего содержимого
+    QScrollArea* scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setStyleSheet("background-color: transparent; border: none;");
     
-    QWidget* leftWidget = new QWidget();
-    leftWidget->setStyleSheet("background-color: transparent;");
-    QVBoxLayout* leftLayout = new QVBoxLayout(leftWidget);
-    leftLayout->setSpacing(15);
-    leftLayout->setContentsMargins(10, 10, 10, 10);
+    QWidget* contentWidget = new QWidget();
+    QVBoxLayout* mainLayout = new QVBoxLayout(contentWidget);
+    mainLayout->setContentsMargins(40, 40, 40, 40);
+    mainLayout->setSpacing(20);
 
-    QLabel* titleLabel = new QLabel("Проект: Графическое отображение ветвящейся функции\nв рамках клиент-серверного проекта");
-    titleLabel->setWordWrap(true);
-    titleLabel->setStyleSheet("color: white; font-weight: bold;");
-    QFont titleFont("Arial", 14, QFont::Bold);
+    // Заголовок
+    QLabel* titleLabel = new QLabel("МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РФ");
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("color: #2c3e50; font-weight: bold;");
+    QFont titleFont("Arial", 12);
     titleLabel->setFont(titleFont);
-    leftLayout->addWidget(titleLabel);
+    mainLayout->addWidget(titleLabel);
 
-    leftLayout->addSpacing(10);
+    QLabel* uniLabel = new QLabel("Московский Политехнический Университет");
+    uniLabel->setAlignment(Qt::AlignCenter);
+    uniLabel->setStyleSheet("color: #2c3e50; font-weight: bold;");
+    QFont uniFont("Arial", 14);
+    uniLabel->setFont(uniFont);
+    mainLayout->addWidget(uniLabel);
 
-    QLabel* disciplineLabel = new QLabel("Дисциплина: Технологии и методы программирования");
-    disciplineLabel->setWordWrap(true);
-    disciplineLabel->setStyleSheet("color: #ecf0f1;");
-    QFont disciplineFont("Arial", 12);
-    disciplineLabel->setFont(disciplineFont);
-    leftLayout->addWidget(disciplineLabel);
+    mainLayout->addSpacing(20);
 
-    leftLayout->addSpacing(10);
+    // Название проекта
+    QLabel* projectLabel = new QLabel("Разработка приложения клиент-сервер");
+    projectLabel->setAlignment(Qt::AlignCenter);
+    projectLabel->setStyleSheet("color: #e74c3c; font-weight: bold;");
+    QFont projectFont("Arial", 16);
+    projectLabel->setFont(projectFont);
+    mainLayout->addWidget(projectLabel);
+    
+    QLabel* projectDescLabel = new QLabel("Сервер хранит и обрабатывает данные. Клиент получает результаты расчëтов и отображает их в табличной и графической форме.");
+    projectDescLabel->setAlignment(Qt::AlignCenter);
+    projectDescLabel->setWordWrap(true);
+    projectDescLabel->setStyleSheet("color: #2c3e50;");
+    projectDescLabel->setFont(QFont("Arial", 11));
+    mainLayout->addWidget(projectDescLabel);
 
-    QLabel* descLabel = new QLabel("Описание проекта: Проект представляет собой клиент-серверное приложение для построения графиков математических функций.");
-    descLabel->setWordWrap(true);
-    descLabel->setStyleSheet("color: #ecf0f1;");
-    descLabel->setFont(disciplineFont);
-    leftLayout->addWidget(descLabel);
+    mainLayout->addSpacing(20);
 
-    leftLayout->addSpacing(20);
+    // Выполнили
+    QLabel* performedLabel = new QLabel("Выполнили студенты группы 251-371:");
+    performedLabel->setAlignment(Qt::AlignCenter);
+    performedLabel->setStyleSheet("color: #2c3e50; font-weight: bold;");
+    performedLabel->setFont(QFont("Arial", 12));
+    mainLayout->addWidget(performedLabel);
 
-    QLabel* membersTitle = new QLabel("Участники проекта, студенты группы 251-371:");
-    membersTitle->setStyleSheet("color: white;");
-    membersTitle->setFont(QFont("Arial", 12, QFont::Bold));
-    leftLayout->addWidget(membersTitle);
-
-    QStringList members = {
+    QStringList students = {
         "• Мягкая Виктория",
         "• Табакарь Ксения",
         "• Семёнова Эвелина",
@@ -66,40 +71,55 @@ WelcomeWindow::WelcomeWindow(QWidget *parent) : QWidget(parent)
         "• Сперанская София"
     };
 
-    for (const QString& member : members) {
-        QLabel* memberLabel = new QLabel(member);
-        memberLabel->setStyleSheet("color: #bdc3c7;");
-        memberLabel->setFont(QFont("Arial", 11));
-        leftLayout->addWidget(memberLabel);
+    for (const QString& student : students) {
+        QLabel* studentLabel = new QLabel(student);
+        studentLabel->setAlignment(Qt::AlignCenter);
+        studentLabel->setStyleSheet("color: #34495e;");
+        studentLabel->setFont(QFont("Arial", 11));
+        mainLayout->addWidget(studentLabel);
     }
 
-    leftLayout->addStretch();
+    mainLayout->addSpacing(20);
 
-    m_nextButton = new QPushButton("Далее →");
-    m_nextButton->setFixedSize(200, 40);
+    // Проверила
+    QLabel* checkedLabel = new QLabel("Проверила: Киреева Галина Ивановна");
+    checkedLabel->setAlignment(Qt::AlignCenter);
+    checkedLabel->setStyleSheet("color: #2c3e50; font-weight: bold;");
+    checkedLabel->setFont(QFont("Arial", 11));
+    mainLayout->addWidget(checkedLabel);
+
+    QLabel* positionLabel = new QLabel("Доцент кафедры ИБ, МПУ");
+    positionLabel->setAlignment(Qt::AlignCenter);
+    positionLabel->setStyleSheet("color: #7f8c8d;");
+    positionLabel->setFont(QFont("Arial", 10));
+    mainLayout->addWidget(positionLabel);
+
+    mainLayout->addStretch();
+
+    // Кнопка "Авторизация"
+    m_nextButton = new QPushButton("Авторизация");
+    m_nextButton->setFixedSize(200, 45);
     m_nextButton->setStyleSheet(
         "QPushButton {"
         "   background-color: #3498db;"
         "   color: white;"
         "   font-size: 14px;"
         "   font-weight: bold;"
-        "   border-radius: 5px;"
+        "   border-radius: 8px;"
         "   border: none;"
         "}"
         "QPushButton:hover {"
         "   background-color: #2980b9;"
         "}"
     );
-    leftLayout->addWidget(m_nextButton, 0, Qt::AlignCenter);
-    
-    leftScroll->setWidget(leftWidget);
-    mainLayout->addWidget(leftScroll, 1);
-
-    // Правая часть - формула
-    m_formulaWidget = new FormulaWidget(this);
-    mainLayout->addWidget(m_formulaWidget);
+    mainLayout->addWidget(m_nextButton, 0, Qt::AlignCenter);
 
     connect(m_nextButton, &QPushButton::clicked, this, &WelcomeWindow::onNextClicked);
+    
+    scrollArea->setWidget(contentWidget);
+    
+    QVBoxLayout* outerLayout = new QVBoxLayout(this);
+    outerLayout->addWidget(scrollArea);
 }
 
 WelcomeWindow::~WelcomeWindow()

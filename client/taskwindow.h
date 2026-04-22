@@ -1,16 +1,16 @@
-#ifndef WELCOMEWINDOW_H
-#define WELCOMEWINDOW_H
+#ifndef TASKWINDOW_H
+#define TASKWINDOW_H
 
 #include <QWidget>
 #include <QPushButton>
 
-class WelcomeWindow : public QWidget
+class TaskWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit WelcomeWindow(QWidget *parent = nullptr);
-    ~WelcomeWindow();
+    explicit TaskWindow(QWidget *parent = nullptr);
+    ~TaskWindow();
 
 signals:
     void nextClicked();
@@ -22,4 +22,4 @@ private:
     QPushButton* m_nextButton;
 };
 
-#endif // WELCOMEWINDOW_H
+#endif // TASKWINDOW_H
