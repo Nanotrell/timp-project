@@ -1,11 +1,10 @@
 var indexSectionsWithContent =
 {
-  0: "_abcdefghilmopqrsuvw~",
-  1: "acdfmpqru",
-  2: "admprs",
-  3: "acdefghimoprsuvw~",
-  4: "abcdeilmpqrs",
-  5: "_lqu"
+  0: "abcdefghilmnoprstuvw~",
+  1: "acdfmprtuw",
+  2: "adfmprstw",
+  3: "acdefghimnoprstuvw~",
+  4: "abcdeilmpr"
 };
 
 var indexSectionNames =
@@ -14,17 +13,15 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "variables",
-  5: "defines"
+  4: "variables"
 };
 
 var indexSectionLabels =
 {
-  0: "All",
-  1: "Classes",
-  2: "Files",
-  3: "Functions",
-  4: "Variables",
-  5: "Macros"
+  0: "Указатель",
+  1: "Классы",
+  2: "Файлы",
+  3: "Функции",
+  4: "Переменные"
 };
 

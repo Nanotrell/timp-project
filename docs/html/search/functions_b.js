@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['resetpassworddialog_665',['ResetPasswordDialog',['../classResetPasswordDialog.html#a5a6c4a8e4de9b1923573fbc4a3f85047',1,'ResetPasswordDialog']]],
-  ['resizeevent_666',['resizeEvent',['../classMainWindow.html#aad75236c74a5c340c3e18749a9b5eb4f',1,'MainWindow']]]
+  ['paintevent_264',['paintEvent',['../classFormulaWidget.html#aa12325f4d43e7f54be0e70165a5bbcb3',1,'FormulaWidget::paintEvent()'],['../classPlotWidget.html#af5ea7c023c177814e641d03a9dbba7c3',1,'PlotWidget::paintEvent(QPaintEvent *event) override']]],
+  ['plotwidget_265',['PlotWidget',['../classPlotWidget.html#adb0478b91693d35aee6521f325511ac6',1,'PlotWidget']]],
+  ['postgresqlserver_266',['PostgreSQLServer',['../classPostgreSQLServer.html#af73964453ca40abf8e23cd98814173c0',1,'PostgreSQLServer']]],
+  ['processrequest_267',['processRequest',['../classPostgreSQLServer.html#a64ca6b670a7f886ff566079b69cb959d',1,'PostgreSQLServer']]]
 ];

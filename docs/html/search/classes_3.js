@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['functionparams_579',['FunctionParams',['../structFunctionParams.html',1,'']]]
+  ['formulawidget_176',['FormulaWidget',['../classFormulaWidget.html',1,'']]],
+  ['functionparams_177',['FunctionParams',['../structFunctionParams.html',1,'']]]
 ];

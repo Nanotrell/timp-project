@@ -1,14 +1,13 @@
 var searchData=
 [
-  ['c_413',['c',['../structFunctionParams.html#a9ebfc24b1d2fb7e60a30884d71d8ecd8',1,'FunctionParams']]],
-  ['calculate_414',['calculate',['../classMathEngine.html#ac2b56a1ab9beda80b27595e4ac96d1cf',1,'MathEngine']]],
-  ['checkauth_415',['checkAuth',['../classDatabase.html#acda40e696f691bdf137903b9568e7bb2',1,'Database']]],
-  ['clear_416',['clear',['../classPlotWidget.html#a49ab2464eff2a40e2f9914840e9eeaaf',1,'PlotWidget']]],
-  ['clearresettoken_417',['clearResetToken',['../classDatabase.html#ab64a27358441bc9f5001f9b3e8d06e9b',1,'Database']]],
-  ['clientsession_418',['ClientSession',['../structClientSession.html',1,'']]],
-  ['close_419',['close',['../classDatabase.html#ab89cb07242f0ab1d4058974bf3e7cf19',1,'Database']]],
-  ['connect_420',['connect',['../classDatabase.html#a78ba35ed79175eec8e4fa9a735de31c5',1,'Database']]],
-  ['createdat_421',['createdAt',['../structUserInfo.html#a1ed31124e88bcadf0ea1e135e486c300',1,'UserInfo']]],
-  ['createtables_422',['createTables',['../classDatabase.html#a4cc313e7b3e6ca2653a1a1527413f19c',1,'Database']]],
-  ['currentlogin_423',['currentLogin',['../structClientSession.html#a73d6d7553e2b64cdb3a60b7f121f31b1',1,'ClientSession']]]
+  ['database_22',['Database',['../classDatabase.html',1,'Database'],['../classDatabase.html#a4703c80e6969d33565ea340f768fdadf',1,'Database::Database()'],['../classDatabase.html#a83f8b6d2941a4aee50f225e08e97291c',1,'Database::Database(const Database &amp;)=delete']]],
+  ['database_2ecpp_23',['database.cpp',['../database_8cpp.html',1,'']]],
+  ['database_2eh_24',['database.h',['../database_8h.html',1,'']]],
+  ['databasedestroyer_25',['DatabaseDestroyer',['../classDatabaseDestroyer.html',1,'']]],
+  ['db_26',['db',['../classDatabase.html#aea64d7d99483faec8f049cdd817bb693',1,'Database']]],
+  ['destroyer_27',['destroyer',['../database_8cpp.html#a87d512834a009b1192b66edd7002274a',1,'database.cpp']]],
+  ['drawaxes_28',['drawAxes',['../classPlotWidget.html#acb5fe9ee4f5b37ca855210253a06509a',1,'PlotWidget']]],
+  ['drawformula_29',['drawFormula',['../classPlotWidget.html#ac7ca38084701a25d46fdcabdd0e5341d',1,'PlotWidget']]],
+  ['drawfunction_30',['drawFunction',['../classPlotWidget.html#a723ef00f297fe3280e7aabc58b321068',1,'PlotWidget']]],
+  ['drawgrid_31',['drawGrid',['../classPlotWidget.html#a6b3fe569805fec58a38e2615dde2408c',1,'PlotWidget']]]
 ];

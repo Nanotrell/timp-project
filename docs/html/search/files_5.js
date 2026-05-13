@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['sendemail_5fpatch_2ecpp_614',['sendemail_patch.cpp',['../sendemail__patch_8cpp.html',1,'']]]
+  ['resetpassworddialog_2ecpp_203',['resetpassworddialog.cpp',['../resetpassworddialog_8cpp.html',1,'']]],
+  ['resetpassworddialog_2eh_204',['resetpassworddialog.h',['../resetpassworddialog_8h.html',1,'']]]
 ];

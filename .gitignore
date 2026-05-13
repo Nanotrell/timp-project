@@ -12,6 +12,7 @@ __pycache__/
 .idea/
 docs/html/
 docs/latex/
+debug_scripts/
 
 # Secrets
 *_config.h
@@ -20,3 +21,5 @@ secrets.h
 *.key
 server/email_config.h
 *.pyc
+moc_*.cpp
+moc_*.h
