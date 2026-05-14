@@ -3,6 +3,7 @@
 *.so
 *.exe
 moc_*.cpp
+moc_*.h
 ui_*.h
 build/
 debug/
@@ -21,5 +22,4 @@ secrets.h
 *.key
 server/email_config.h
 *.pyc
-moc_*.cpp
-moc_*.h
+.env
