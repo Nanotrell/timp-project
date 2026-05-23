@@ -7,7 +7,6 @@ moc_*.h
 ui_*.h
 build/
 debug/
-release/
 __pycache__/
 .vscode/
 .idea/
